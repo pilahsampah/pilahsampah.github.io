@@ -3,7 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>Bunker Opanowski - Interactive Lab</title>
+
+    <meta property="og:title" content="⚠️ MASUK KE BUNKER OPANOWSKI ⚠️">
+    <meta property="og:description" content="Portal Eksperimen Om Opan. Sentuh gambar untuk akses situs utama!">
+    <meta property="og:image" content="https://ozbopan.github.io/FOTO_LO.jpg">
+    <meta property="og:url" content="https://ozbopan.github.io/">
+    <meta property="og:type" content="website">
+
     <style>
         body {
             background-color: #050505;
@@ -13,25 +21,30 @@
             height: 100vh;
             margin: 0;
             overflow: hidden;
+            font-family: sans-serif;
         }
 
+        /* Bingkai Rainbow RGB */
         .neon-frame {
             position: relative;
-            width: 350px; /* Ukuran disesuaikan agar pas di layar HP */
-            height: 350px;
+            width: 320px; /* Ukuran pas untuk layar HP */
+            height: 320px;
             padding: 6px;
             border-radius: 18px;
             display: flex;
             justify-content: center;
             align-items: center;
-            cursor: pointer; /* Ubah jadi pointer biar orang tau bisa diklik */
+            cursor: pointer;
+            
             background: linear-gradient(45deg, #ff00ff, #00ffff, #00ff00, #ffff00, #ff0000, #ff00ff);
             background-size: 400% 400%;
             animation: rainbowMove 5s linear infinite;
+            
             box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
             transition: transform 0.3s ease;
         }
 
+        /* Efek Pendaran Luar */
         .neon-frame::after {
             content: "";
             position: absolute;
@@ -60,7 +73,7 @@
             transition: all 0.5s ease;
         }
 
-        /* Support untuk Desktop (Hover) & HP (Touch/Active) */
+        /* EFEK SAAT KURSOR DEKAT (PC) ATAU DISENTUH JARI (HP) */
         .neon-frame:hover .anime-pic,
         .neon-frame:active .anime-pic {
             filter: grayscale(0%) brightness(1.1) saturate(1.4) contrast(1.1);
@@ -72,21 +85,32 @@
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
+
+        /* Teks instruksi kecil di bawah */
+        .hint {
+            position: absolute;
+            bottom: 50px;
+            color: #555;
+            font-size: 12px;
+            letter-spacing: 1px;
+        }
     </style>
 </head>
 <body>
 
-    <div class="neon-frame" id="labFrame">
+    <div class="neon-frame" id="portal">
         <div class="img-container">
             <img src="FOTO_LO.jpg" alt="Opanowski Bio Lab" class="anime-pic">
         </div>
     </div>
 
+    <div class="hint">TAP TO ENTER PORTAL</div>
+
     <script>
-        // Script untuk redirect ke situs utama saat gambar diklik
-        document.getElementById('labFrame').addEventListener('click', function() {
+        // JAVASCRIPT: KLIK LANGSUNG KE SITUS UTAMA
+        document.getElementById('portal').onclick = function() {
             window.location.href = "https://opanowski.github.io/opanowski/#";
-        });
+        };
     </script>
 
 </body>
