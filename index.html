@@ -3,898 +3,544 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Log Harian — Bunker Opanowski</title>
-<!-- CSS Global — satu file, berlaku semua portal -->
-<link rel="stylesheet" href="../shared.css">
+<meta name="description" content="Panduan pemilahan sampah DKI Jakarta — cari nama sampah, langsung tahu warna tempat sampahnya. Organik, Anorganik, Residu, B3.">
+<meta property="og:title" content="Pilah Sampah Jakarta">
+<meta property="og:description" content="Cari nama sampah, langsung tahu harus dibuang ke mana. Gratis, tanpa iklan.">
+<meta property="og:url" content="https://ozbopan.github.io">
+<title>Pilah Sampah Jakarta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
 <style>
-/* ===== BLOG PORTAL ONLY STYLES ===== */
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --surface2: #1c2128;
+  --border: rgba(255,255,255,0.08);
+  --text: #e6edf3;
+  --muted: #7d8590;
+  --green: #3fb950;
+  --green-bg: rgba(63,185,80,0.1);
+  --green-border: rgba(63,185,80,0.3);
+  --blue: #58a6ff;
+  --blue-bg: rgba(88,166,255,0.1);
+  --blue-border: rgba(88,166,255,0.3);
+  --yellow: #d29922;
+  --yellow-bg: rgba(210,153,34,0.1);
+  --yellow-border: rgba(210,153,34,0.3);
+  --red: #f85149;
+  --red-bg: rgba(248,81,73,0.1);
+  --red-border: rgba(248,81,73,0.3);
+}
 
-/* HEADER */
-header {
-  background: linear-gradient(135deg, #1a1d27 0%, #0f1117 100%);
-  border-bottom: 2px solid var(--accent);
-  padding: 28px 24px 22px;
-  position: sticky; top: 0; z-index: 100;
-}
-.header-top { display: flex; align-items: center; gap: 14px; }
-.header-icon { font-size: 26px; line-height: 1; }
-h1 { font-size: 1.45rem; font-weight: 800; color: var(--accent); letter-spacing: -0.5px; }
-.header-sub { font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-muted); margin-top: 3px; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* STATS */
-.stats {
-  display: flex; gap: 12px; padding: 14px 24px;
-  overflow-x: auto; border-bottom: 1px solid var(--border);
-  scrollbar-width: none;
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  min-height: 100vh;
 }
-.stats::-webkit-scrollbar { display: none; }
-.stat-card {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: 10px; padding: 10px 18px;
-  text-align: center; min-width: 90px; flex-shrink: 0;
-}
-.stat-num { font-size: 1.5rem; font-weight: 800; color: var(--accent); line-height: 1; font-family: var(--font-mono); }
-.stat-label { font-size: 0.62rem; color: var(--text-muted); font-family: var(--font-mono); margin-top: 3px; text-transform: uppercase; letter-spacing: 0.5px; }
 
-/* FILTER TABS */
-.filter-tabs {
-  display: flex; gap: 8px; padding: 12px 24px;
-  overflow-x: auto; border-bottom: 1px solid var(--border);
-  scrollbar-width: none;
+/* HERO */
+.hero {
+  padding: 3rem 1.25rem 2.5rem;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
 }
-.filter-tabs::-webkit-scrollbar { display: none; }
-.tab {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: 20px; padding: 5px 14px;
-  font-size: 0.76rem; font-weight: 600; cursor: pointer;
-  white-space: nowrap; color: var(--text-muted);
-  transition: all 0.2s; font-family: var(--font-body);
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -60px; left: 50%; transform: translateX(-50%);
+  width: 600px; height: 300px;
+  background: radial-gradient(ellipse, rgba(63,185,80,0.08) 0%, transparent 70%);
+  pointer-events: none;
 }
-.tab:hover { border-color: var(--accent); color: var(--accent); }
-.tab.active { background: var(--accent); border-color: var(--accent); color: #0f1117; }
+
+.hero-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--green);
+  border: 1px solid var(--green-border);
+  background: var(--green-bg);
+  padding: 4px 12px;
+  border-radius: 20px;
+  margin-bottom: 1.25rem;
+}
+
+.hero h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(28px, 6vw, 48px);
+  font-weight: 800;
+  line-height: 1.15;
+  color: #fff;
+  margin-bottom: 1rem;
+}
+
+.hero h1 span { color: var(--green); }
+
+.hero p {
+  font-size: 15px;
+  color: var(--muted);
+  max-width: 480px;
+  margin: 0 auto 0.5rem;
+}
 
 /* SEARCH */
-.search-wrap { padding: 12px 24px; border-bottom: 1px solid var(--border); }
-.search-input {
-  width: 100%; background: var(--surface);
-  border: 1px solid var(--border); border-radius: 8px;
-  padding: 10px 16px; color: var(--text);
-  font-family: var(--font-mono); font-size: 0.82rem;
-  outline: none; transition: border-color 0.2s;
+.search-section {
+  padding: 1.5rem 1.25rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(13,17,23,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
 }
-.search-input:focus { border-color: var(--accent); }
-.search-input::placeholder { color: var(--text-muted); }
 
-/* SECTION HEADER */
-.section-header {
-  padding: 18px 24px 10px;
-  font-size: 0.75rem; font-weight: 700; color: var(--text-muted);
-  font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 1px;
+.search-wrap {
+  max-width: 640px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted);
+  font-size: 18px;
+  pointer-events: none;
+}
+
+#searchInput {
+  width: 100%;
+  padding: 14px 14px 14px 44px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+#searchInput::placeholder { color: var(--muted); }
+#searchInput:focus {
+  border-color: var(--green-border);
+  box-shadow: 0 0 0 3px rgba(63,185,80,0.1);
+}
+
+.clear-btn {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 18px;
+  display: none;
+  padding: 4px;
+}
+
+/* RESULTS */
+#result-box { max-width: 640px; margin: 0 auto; padding: 1rem 1.25rem; display: none; }
+
+.result-header {
+  font-size: 12px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.75rem;
+}
+
+.result-card {
+  border-radius: 12px;
+  border: 1px solid;
+  padding: 1.25rem;
+  margin-bottom: 0.75rem;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn { from { opacity:0; transform: translateY(6px); } to { opacity:1; transform:translateY(0); } }
+
+.result-card .badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 20px;
+  border: 1px solid;
+  margin-bottom: 10px;
+}
+
+.result-card .item-name {
+  font-family: 'Syne', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.result-card .desc {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+
+.result-card .tips-box {
+  font-size: 12px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid;
+  line-height: 1.6;
+}
+
+.tips-box strong { display: block; margin-bottom: 3px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; }
+
+.no-result {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--muted);
+}
+.no-result .emoji { font-size: 40px; display: block; margin-bottom: 1rem; }
+
+/* CATEGORY GRID */
+.main-section { max-width: 960px; margin: 0 auto; padding: 1.5rem 1.25rem; }
+
+.section-label {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 1rem;
+}
+
+.cat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.cat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.25rem;
+  transition: border-color 0.2s, transform 0.2s;
+  cursor: default;
+}
+
+.cat-card:hover { transform: translateY(-2px); }
+
+.cat-card .cat-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.cat-dot {
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.cat-card .cat-name {
+  font-family: 'Syne', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.cat-card .cat-desc {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 12px;
+  line-height: 1.55;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.tag {
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  border: 1px solid;
+  color: var(--muted);
+  border-color: var(--border);
+}
+
+.cat-card.organik { border-color: var(--green-border); }
+.cat-card.organik:hover { border-color: var(--green); }
+.cat-card.organik .cat-dot { background: var(--green); }
+.cat-card.organik .cat-name { color: var(--green); }
+.cat-card.organik .tag { border-color: var(--green-border); color: var(--green); background: var(--green-bg); }
+
+.cat-card.anorganik { border-color: var(--blue-border); }
+.cat-card.anorganik:hover { border-color: var(--blue); }
+.cat-card.anorganik .cat-dot { background: var(--blue); }
+.cat-card.anorganik .cat-name { color: var(--blue); }
+.cat-card.anorganik .tag { border-color: var(--blue-border); color: var(--blue); background: var(--blue-bg); }
+
+.cat-card.residu { border-color: var(--yellow-border); }
+.cat-card.residu:hover { border-color: var(--yellow); }
+.cat-card.residu .cat-dot { background: var(--yellow); }
+.cat-card.residu .cat-name { color: var(--yellow); }
+.cat-card.residu .tag { border-color: var(--yellow-border); color: var(--yellow); background: var(--yellow-bg); }
+
+.cat-card.b3 { border-color: var(--red-border); }
+.cat-card.b3:hover { border-color: var(--red); }
+.cat-card.b3 .cat-dot { background: var(--red); }
+.cat-card.b3 .cat-name { color: var(--red); }
+.cat-card.b3 .tag { border-color: var(--red-border); color: var(--red); background: var(--red-bg); }
+
+/* RESULT CARD COLORS */
+.rc-organik { background: var(--green-bg); border-color: var(--green-border); }
+.rc-organik .badge { background: var(--green-bg); border-color: var(--green-border); color: var(--green); }
+.rc-organik .item-name { color: var(--green); }
+.rc-organik .tips-box { background: rgba(63,185,80,0.05); border-color: var(--green-border); color: #a7f3b4; }
+.rc-organik .tips-box strong { color: var(--green); }
+
+.rc-anorganik { background: var(--blue-bg); border-color: var(--blue-border); }
+.rc-anorganik .badge { background: var(--blue-bg); border-color: var(--blue-border); color: var(--blue); }
+.rc-anorganik .item-name { color: var(--blue); }
+.rc-anorganik .tips-box { background: rgba(88,166,255,0.05); border-color: var(--blue-border); color: #a5c8ff; }
+.rc-anorganik .tips-box strong { color: var(--blue); }
+
+.rc-residu { background: var(--yellow-bg); border-color: var(--yellow-border); }
+.rc-residu .badge { background: var(--yellow-bg); border-color: var(--yellow-border); color: var(--yellow); }
+.rc-residu .item-name { color: var(--yellow); }
+.rc-residu .tips-box { background: rgba(210,153,34,0.05); border-color: var(--yellow-border); color: #e2c97e; }
+.rc-residu .tips-box strong { color: var(--yellow); }
+
+.rc-b3 { background: var(--red-bg); border-color: var(--red-border); }
+.rc-b3 .badge { background: var(--red-bg); border-color: var(--red-border); color: var(--red); }
+.rc-b3 .item-name { color: var(--red); }
+.rc-b3 .tips-box { background: rgba(248,81,73,0.05); border-color: var(--red-border); color: #ffb3b0; }
+.rc-b3 .tips-box strong { color: var(--red); }
+
+/* EDU */
+.edu-section {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 1.25rem 1.5rem;
+}
+
+.edu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+}
+
+.edu-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem 1.125rem;
+}
+
+.edu-card .step {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--green);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 6px;
+}
+
+.edu-card p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+/* FOOTER */
+footer {
+  text-align: center;
+  padding: 2rem 1.25rem;
   border-top: 1px solid var(--border);
-  display: flex; align-items: center; gap: 8px;
-}
-.section-header .count {
-  background: var(--surface2); border-radius: 10px;
-  padding: 2px 8px; font-size: 0.68rem; color: var(--accent);
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 1rem;
 }
 
-/* LOG LIST */
-.log-list { padding: 0 24px 40px; display: flex; flex-direction: column; gap: 14px; }
-
-/* LOG CARD */
-.log-card {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: 12px; padding: 20px 22px;
-  text-decoration: none; color: inherit; display: block;
-  transition: all 0.2s; position: relative; overflow: hidden;
-}
-.log-card::before {
-  content: ''; position: absolute; left: 0; top: 0; bottom: 0;
-  width: 3px; background: var(--accent); opacity: 0; transition: opacity 0.2s;
-}
-.log-card:hover { border-color: var(--accent); background: #1e2130; transform: translateX(3px); }
-.log-card:hover::before { opacity: 1; }
-.log-card-top { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
-.log-num-badge {
-  font-family: var(--font-mono); font-size: 0.65rem; font-weight: 700;
-  color: var(--accent); background: var(--surface2);
-  border: 1px solid var(--border); border-radius: 4px; padding: 2px 8px;
-}
-.log-date { font-family: var(--font-mono); font-size: 0.65rem; color: var(--text-muted); }
-.log-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-left: auto; }
-.log-title { font-size: 1.05rem; font-weight: 800; color: var(--text); letter-spacing: -0.3px; margin-bottom: 6px; line-height: 1.3; }
-.log-desc { font-size: 0.83rem; color: var(--text-muted); line-height: 1.65; margin-bottom: 12px; }
-.log-card-bottom { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
-.log-sections { display: flex; gap: 6px; flex-wrap: wrap; }
-.section-pill {
-  font-family: var(--font-mono); font-size: 0.62rem; color: var(--text-muted);
-  background: var(--surface2); border: 1px solid var(--border);
-  border-radius: 4px; padding: 2px 7px;
-}
-.log-arrow { font-family: var(--font-mono); font-size: 0.7rem; color: var(--accent); opacity: 0; transition: opacity 0.2s; }
-.log-card:hover .log-arrow { opacity: 1; }
-
-/* ARTIKEL CARD (accordion) */
-.artikel-card {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: 12px; overflow: hidden;
-  transition: border-color 0.2s; position: relative;
-}
-.artikel-card::before {
-  content: ''; position: absolute; left: 0; top: 0; bottom: 0;
-  width: 3px; background: var(--gold);
-}
-.artikel-card:hover { border-color: rgba(200,151,42,0.45); }
-.artikel-header { padding: 18px 22px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-.artikel-header-left { flex: 1; }
-.artikel-meta { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 6px; }
-.artikel-date { font-family: var(--font-mono); font-size: 0.65rem; color: var(--gold); opacity: 0.8; letter-spacing: 1px; text-transform: uppercase; }
-.artikel-badge {
-  background: rgba(200,151,42,0.1); border: 1px solid rgba(200,151,42,0.25);
-  border-radius: 20px; padding: 2px 10px;
-  font-family: var(--font-mono); font-size: 0.6rem; color: var(--gold);
-}
-.artikel-badge-blue { background: rgba(91,141,238,0.1); border: 1px solid rgba(91,141,238,0.25); color: #5b8dee; }
-.artikel-title { font-family: var(--font-display); font-size: 1rem; color: var(--cream); line-height: 1.35; }
-.artikel-title em { color: var(--gold); font-style: italic; }
-.chevron { width: 20px; height: 20px; flex-shrink: 0; color: var(--gold); opacity: 0.7; transition: transform 0.3s; }
-.chevron svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-.artikel-card.open .chevron { transform: rotate(180deg); opacity: 1; }
-.artikel-body { max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s; padding: 0 22px; }
-.artikel-card.open .artikel-body { max-height: 2000px; padding: 0 22px 20px; border-top: 1px solid var(--border); }
-.artikel-body p { font-size: 0.85rem; color: var(--text-muted); line-height: 1.9; margin-bottom: 10px; margin-top: 14px; }
-.acc-box { margin: 10px 0; padding: 14px 16px; border-radius: 8px; }
-.acc-box.red   { background: rgba(224,90,90,0.06); border: 1px solid rgba(224,90,90,0.2); }
-.acc-box.green { background: rgba(76,175,125,0.06); border: 1px solid rgba(76,175,125,0.2); }
-.acc-box.gold  { background: rgba(200,151,42,0.06); border: 1px solid rgba(200,151,42,0.2); }
-.acc-box.blue  { background: rgba(91,141,238,0.06); border: 1px solid rgba(91,141,238,0.2); }
-.acc-box-label { font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 700; margin-bottom: 10px; }
-.acc-box.red   .acc-box-label { color: #e05a5a; }
-.acc-box.green .acc-box-label { color: #4caf7d; }
-.acc-box.gold  .acc-box-label { color: var(--gold); }
-.acc-box.blue  .acc-box-label { color: #5b8dee; }
-.acc-box div { font-size: 0.82rem; color: var(--text-muted); line-height: 2.1; }
-.code-tag { background: rgba(255,255,255,0.08); padding: 1px 6px; border-radius: 4px; font-size: 0.8rem; font-family: var(--font-mono); }
-.acc-quote { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); font-style: italic; color: var(--gold); font-size: 0.83rem; font-family: var(--font-display); }
-
-/* MISC */
-.no-result { text-align: center; padding: 48px 24px; color: var(--text-muted); font-family: var(--font-mono); font-size: 0.8rem; display: none; }
-.updated-tag { display: inline-block; background: var(--surface2); border: 1px solid var(--border); border-radius: 4px; padding: 2px 8px; font-size: 0.62rem; color: var(--accent); margin-left: 6px; }
+footer a { color: var(--green); text-decoration: none; }
 </style>
 </head>
 <body>
 
-<header>
-  <a class="back-link" href="https://opanowski.github.io/opanowski/" style="display:inline-flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:0.7rem;color:var(--text-muted);margin-bottom:14px">← Kembali ke Portal</a>
-  <div class="header-top">
-    <span class="header-icon">📓</span>
-    <div>
-      <h1>Log Harian — Bunker Opanowski</h1>
-      <div class="header-sub">Catatan lapangan dari Villa Ciracas · Ciracas, Jakarta Timur</div>
-    </div>
-  </div>
+<header class="hero">
+  <div class="hero-badge">DKI Jakarta</div>
+  <h1>Jakarta wajib<br><span>pilah sampah.</span></h1>
+  <p>Bantargebang hampir penuh. Mulai dari rumah — ketik nama sampah di bawah, langsung tahu harus dibuang ke mana.</p>
 </header>
 
-<div class="stats">
-  <div class="stat-card"><div class="stat-num">18</div><div class="stat-label">Total Entri</div></div>
-  <div class="stat-card"><div class="stat-num">2026</div><div class="stat-label">Tahun Aktif</div></div>
-  <div class="stat-card"><div class="stat-num">7</div><div class="stat-label">Topik</div></div>
-  <div class="stat-card"><div class="stat-num" id="stat-visible">18</div><div class="stat-label">Ditampilkan</div></div>
+<div class="search-section">
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="searchInput" placeholder="Cari nama sampah... misal: popok, botol, baterai, nasi basi" autocomplete="off" spellcheck="false" />
+    <button class="clear-btn" id="clearBtn" aria-label="Hapus pencarian">✕</button>
+  </div>
 </div>
 
-<div class="filter-tabs">
-  <button class="tab active" onclick="filterTag('ALL',this)">📓 Semua</button>
-  <button class="tab" onclick="filterTag('youtube',this)">📺 YouTube</button>
-  <button class="tab" onclick="filterTag('mekanik',this)">🔧 Mekanik</button>
-  <button class="tab" onclick="filterTag('tipstrik',this)">💡 Tips & Trik</button>
-  <button class="tab" onclick="filterTag('ai',this)">🤖 AI</button>
-  <button class="tab" onclick="filterTag('farming',this)">🌱 Urban Farming</button>
-  <button class="tab" onclick="filterTag('filosofi',this)">🧭 Filosofi</button>
-  <button class="tab" onclick="filterTag('web',this)">🌐 Web</button>
-  <button class="tab" onclick="filterTag('santai',this)">☕ Catatan Santai</button>
+<div id="result-box">
+  <p class="result-header" id="resultHeader"></p>
+  <div id="resultList"></div>
 </div>
 
-<div class="search-wrap">
-  <input class="search-input" type="text" id="searchInput" placeholder="🔍  Cari log & artikel..." oninput="doSearch()">
+<div id="mainContent">
+  <div class="main-section">
+    <p class="section-label">Kode warna tempat sampah</p>
+    <div class="cat-grid" id="catGrid"></div>
+  </div>
+
+  <div class="edu-section">
+    <p class="section-label" style="margin-bottom:0.75rem">3 langkah praktis di rumah</p>
+    <div class="edu-grid">
+      <div class="edu-card">
+        <p class="step">① Siapkan wadah</p>
+        <p>Sediakan minimal 2–4 kantong atau wadah berlabel: organik, anorganik, residu, dan B3. Bisa pakai ember bekas atau kantong kresek berwarna.</p>
+      </div>
+      <div class="edu-card">
+        <p class="step">② Keringkan dulu</p>
+        <p>Bilas botol, kaleng, dan wadah plastik sebelum masuk tempat anorganik. Sampah basah merusak nilai daur ulang dan bikin bau.</p>
+      </div>
+      <div class="edu-card">
+        <p class="step">③ Setor ke bank sampah</p>
+        <p>Kumpulkan sampah anorganik kering dan setor ke bank sampah terdekat. Bisa dapat poin atau uang cash, lumayan!</p>
+      </div>
+    </div>
+  </div>
 </div>
 
-<div class="section-header">
-  📅 Semua Entri <span class="count" id="visible-count">21 entri</span>
-</div>
-
-<div class="log-list" id="main-list">
-
-  <!-- ============================================================
-       TAMBAH ENTRI BARU DI SINI — COPY BLOK LOG CARD DI BAWAH
-       Perhatikan: href link ke "../blog-namafile.html" (file blog tetap di root)
-       ============================================================ -->
-
-  <!-- LOG #018 — Lalat Hijau & Kedondong Mini -->
-  <a class="log-card" id="entry-log018" href="blog-lalat-hijau-kedondong-mini.html" data-tags="farming,santai">
-    <div class="log-card-top">
-      <span class="log-num-badge">#018</span>
-      <span class="log-date"><span class="live-dot"></span>Sabtu, 17 Mei 2026</span>
-      <div class="log-tags">
-        <span class="tag tag-farming">🌿 Kebun &amp; Alam</span>
-        <span class="tag tag-santai">☕ Teras Rumah</span>
-      </div>
-    </div>
-    <div class="log-title">Lalat Hijau Itu Lagi Ngurusin Bunga Gue — dan Gue Hampir Ngusirnya</div>
-    <div class="log-desc">Ternyata ada yang lebih tahu soal bunga kedondong gue daripada gue sendiri. Namanya lalat. Lalat hijau. Penyerbuk tanpa kredit, dari teras Villa Ciracas. 🪰</div>
-    <div class="log-card-bottom">
-      <div class="log-sections">
-        <span class="section-pill">Tabulampot Kedondong</span>
-        <span class="section-pill">Lalat Hijau</span>
-        <span class="section-pill">Fakta Alam</span>
-      </div>
-      <span class="log-arrow">Baca →</span>
-    </div>
-  </a>
-
-  <!-- LOG #017 — Panen Telur & Zero Waste Batang Pisang -->
-  <a class="log-card" id="entry-log017" href="../blog-panen-telur-batang-pisang.html" data-tags="farming">
-    <div class="log-card-top">
-      <span class="log-num-badge">#017</span>
-      <span class="log-date"><span class="live-dot"></span>Sabtu, 3 Mei 2026</span>
-      <div class="log-tags">
-        <span class="tag tag-farming">🌱 Urban Farming</span>
-        <span class="tag tag-filosofi">♻️ Zero Waste</span>
-      </div>
-    </div>
-    <div class="log-title">4 Bulan Mandiri Telur & Zero Waste Batang Pisang — Villa Ciracas</div>
-    <div class="log-desc">4 bulan tidak beli telur berkat kandang aviary terbuka tanpa bau di tengah Jakarta Timur. Plus teknik zero waste batang pisang jadi mulsa organik "kulkas alami" untuk tanaman pot.</div>
-    <div class="log-card-bottom">
-      <div class="log-sections">
-        <span class="section-pill">Kandang Aviary</span>
-        <span class="section-pill">Panen Telur Harian</span>
-        <span class="section-pill">Batang Pisang → Mulsa</span>
-      </div>
-      <span class="log-arrow">Baca →</span>
-    </div>
-  </a>
-
-  <!-- LOG #016 — Digitalisasi Si Latte TTS FFmpeg -->
-  <a class="log-card" id="entry-log016" href="blog-latte-tts-ffmpeg.html" data-tags="tipstrik,ai,youtube">
-    <div class="log-card-top">
-      <span class="log-num-badge">#016</span>
-      <span class="log-date"><span class="live-dot"></span>Rabu, 13 Mei 2026</span>
-      <div class="log-tags">
-        <span class="tag tag-ai">🤖 AI</span>
-        <span class="tag tag-mekanik">💡 Tips &amp; Trik</span>
-        <span class="tag tag-youtube">📺 YouTube</span>
-      </div>
-    </div>
-    <div class="log-title">Digitalisasi Si Latte: Produksi Video Otomatis dengan Python &amp; FFmpeg</div>
-    <div class="log-desc">MacBook 2015, Edge-TTS Ardi Neural, dan FFmpeg bersatu bikin konten video si Latte punya suara sendiri. Dari Bunker Ciracas ke YouTube Shorts — sekedip mata. 🐰</div>
-    <div class="log-card-bottom">
-      <div class="log-sections">
-        <span class="section-pill">Edge-TTS Ardi</span>
-        <span class="section-pill">FFmpeg Mixer</span>
-        <span class="section-pill">YouTube Shorts</span>
-      </div>
-      <span class="log-arrow">Baca →</span>
-    </div>
-  </a>
-
-  <!-- LOG #015 — Filosofi 10Mbps Eznet -->
-  <a class="log-card" id="entry-log015" href="blog-eznet-10mbps-bunker-opanowski.html" data-tags="tipstrik,filosofi,web">
-    <div class="log-card-top">
-      <span class="log-num-badge">#015</span>
-      <span class="log-date"><span class="live-dot"></span>Rabu, 13 Mei 2026</span>
-      <div class="log-tags">
-        <span class="tag tag-mekanik">💡 Tips &amp; Trik</span>
-        <span class="tag tag-filosofi">🧭 Filosofi</span>
-      </div>
-    </div>
-    <div class="log-title">Filosofi 10Mbps: Alur Kerja Efisien Bunker Opanowski</div>
-    <div class="log-desc">Eznet 10Mbps seharga Rp172.000/bulan ternyata lebih dari cukup untuk eksis global via GitHub. Kuncinya bukan angka bandwidth — tapi seberapa cerdas kita kelola prioritas penggunaan.</div>
-    <div class="log-card-bottom">
-      <div class="log-sections">
-        <span class="section-pill">Eznet 10Mbps</span>
-        <span class="section-pill">Mac Jadul + Debian</span>
-        <span class="section-pill">Kedaulatan Digital</span>
-      </div>
-      <span class="log-arrow">Baca →</span>
-    </div>
-  </a>
-
-  <!-- LOG #014 — Mancing Bambu Apus -->
-  <a class="log-card" id="entry-log014" href="blog-mancing-bambu-apus.html" data-tags="santai">
-    <div class="log-card-top">
-      <span class="log-num-badge">#014</span>
-      <span class="log-date"><span class="live-dot"></span>Rabu, 13 Mei 2026</span>
-      <div class="log-tags">
-        <span class="tag tag-santai">☕ Catatan Santai</span>
-        <span class="tag tag-youtube">📺 YouTube</span>
-      </div>
-    </div>
-    <div class="log-title">Setoran Mujair Nila dari Bambu Apus</div>
-    <div class="log-desc">Bagas dan kawannya mampir bawa oleh-oleh mancing: sekantong mujair nila segar, plus video kocak ikan terbang nyangkut di pohon pisang. Nyokap langsung turun tangan.</div>
-    <div class="log-card-bottom">
-      <div class="log-sections">
-        <span class="section-pill">Mancing Bambu Apus</span>
-        <span class="section-pill">Mujair Nila</span>
-        <span class="section-pill">Goreng Krispi</span>
-      </div>
-      <span class="log-arrow">Baca →</span>
-    </div>
-  </a>
-
-  <!-- LOG #013 — Anabul Kelinci Jetpump -->
-  <a class="log-card" id="entry-log013" href="blog-anak-kelinci-jetpump.html" data-tags="santai,farming">
-    <div class="log-card-top">
-      <span class="log-num-badge">#013</span>
-      <span class="log-date"><span class="live-dot"></span>Senin, 11 Mei 2026</span>
-      <div class="log-tags">
-        <span class="tag tag-santai">☕ Catatan Santai</span>
-        <span class="tag tag-farming">🌱 Urban Farming</span>
-      </div>
-    </div>
-    <div class="log-title">Log Anabul: Tidur Nyenyak Level Dewa di Tengah Kebisingan!</div>
-    <div class="log-desc">Kelinci di lubang jetpump, suara gerinda renovasi kenceng, tapi mereka tidur cantik tanpa keganggu sedikit pun. Seni swasembada lahan sempit di Ciracas. 🐰</div>
-    <div class="log-card-bottom">
-      <span class="read-more">Baca selengkapnya →</span>
-      <div class="log-meta-tags">
-        <span class="meta-tag">Anabul</span>
-        <span class="meta-tag">Lahan Sempit</span>
-        <span class="meta-tag">Ciracas</span>
-      </div>
-    </div>
-  </a>
-
-  <!-- LOG #012 — AI Meta Ngacak Bunker -->
-  <a class="log-card" id="entry-log012" href="blog-meta-ai-bunker-opanowski.html" data-tags="ai,web,tipstrik">
-    <div class="log-card-top">
-      <span class="log-num-badge">#012</span>
-      <span class="log-date"><span class="date-icon">📅</span> Minggu, 10 Mei 2026</span>
-      <div class="log-tags">
-        <span class="tag tag-ai">🤖 AI</span>
-        <span class="tag tag-web">🌐 Web</span>
-        <span class="tag tag-mekanik">💀 Incident</span>
-      </div>
-    </div>
-    <div class="log-title">Ketika AI Meta Ngacak Bunker</div>
-    <div class="log-desc">Kronologi, investigasi, dan misi penyelamatan website yang hampir lenyap gara-gara AI yang kelewat "helpful". Git jadi satu-satunya penyelamat.</div>
-    <div class="log-card-bottom">
-      <span class="read-more">Baca selengkapnya →</span>
-      <div class="log-meta-tags">
-        <span class="meta-tag">Incident Report</span>
-        <span class="meta-tag">Git Rescue</span>
-        <span class="meta-tag">AI Meta</span>
-      </div>
-    </div>
-  </a>
-       <!-- LOG #011 - Kenangan Bandung Nyokap & Alm. Bayu -->
-    <a class="log-card" id="entry-log011" href="blog-kenangan-bandung-nyokap-bayu.html" data-tags="santai keluarga in-memoriam">
-      <div class="log-card-top">
-        <span class="log-num-badge">#011</span>
-        <span class="log-date"><span class="date-icon">📅</span> Minggu, 10 Mei 2026</span>
-        <div class="log-tags">
-          <span class="tag tag-santai">☕ Santai</span>
-          <span class="tag tag-keluarga">❤️ Keluarga</span>
-          <span class="tag tag-memoriam">🕊️ In Memoriam</span>
-        </div>
-      </div>
-      <div class="log-title">Jejak Memori di Bandung: Tentang Ramen, Nyokap, dan Kepergian sang Bontot</div>
-      <div class="log-desc">Membuka folder lama, ketemu foto Nyokap nikmatin ramen di Bandung bareng almarhum adik bontot, Bayu. Foto diproses ulang pakai GIMP di Mac jadul — sebagai bentuk penghormatan untuk memori indah kami. Al-Fatihah. 🍜❤️</div>
-      <div class="log-card-bottom">
-        <span class="read-more">Baca selengkapnya →</span>
-        <div class="log-meta-tags">
-          <span class="meta-tag">Kenangan Bandung</span>
-          <span class="meta-tag">Alm. Bayu</span>
-          <span class="meta-tag">GIMP Processed</span>
-        </div>
-      </div>
-    </a>     
-       <!-- LOG #010 — Tablet & Mac Workflow -->
-  <a class="log-card" id="entry-log010" href="blog-tablet-mac-workflow.html" data-tags="tipstrik,web,linux">
-    <div class="log-card-top">
-      <span class="log-num-badge">#010</span>
-      <span class="log-date"><span class="live-dot"></span>Sabtu, 9 Mei 2026</span>
-      <div class="log-tags">
-        <span class="tag tag-mekanik">💡 Tips &amp; Trik</span>
-        <span class="tag tag-web">🌐 Web</span>
-      </div>
-    </div>
-    <div class="log-title">Dua Device, Satu Bunker: Update Web dari Tablet Linux &amp; Mac Jadul Bergantian</div>
-    <div class="log-desc">Siapa bilang update website harus dari device yang sama? MacBook Pro 2015 + Lenovo Xiaoxin Pad Debian Linux — satu repo, nol drama, workflow multi-device pertama Bunker Opanowski.</div>
-    <div class="log-card-bottom">
-      <div class="log-sections">
-        <span class="section-pill">Multi-Device</span>
-        <span class="section-pill">Git Workflow</span>
-        <span class="section-pill">Tiny PC Linux</span>
-      </div>
-      <span class="log-arrow">Baca →</span>
-    </div>
-  </a>
-       <!-- LOG #009 — Mac Survival -->
-  <a class="log-card" id="entry-log009" href="blog-log-009-mac-survival.html" data-tags="tipstrik,web">
-    <div class="log-card-top">
-      <span class="log-num-badge">#009</span>
-      <span class="log-date"><span class="live-dot"></span>Jumat, 9 Mei 2026</span>
-      <div class="log-tags">
-        <span class="tag tag-mekanik">💡 Tips &amp; Trik</span>
-        <span class="tag tag-web">🌐 Web</span>
-      </div>
-    </div>
-    <div class="log-title">Mac Jadul Survival Kit: Setup Kerja di Bunker Opanowski</div>
-    <div class="log-desc">MacBook Pro Mid 2015 masih bisa produktif. Dari workflow VSCode, Live Server, sampai git push — semua jalan di mesin jadul asal tau triknya.</div>
-    <div class="log-card-bottom">
-      <div class="log-sections">
-        <span class="section-pill">Mac Jadul</span>
-        <span class="section-pill">VSCode</span>
-        <span class="section-pill">Git Workflow</span>
-      </div>
-      <span class="log-arrow">Baca →</span>
-    </div>
-  </a>
-       <!-- LOG #008 — VSCode Workflow -->
-  <a class="log-card" id="entry-log008" href="../log-008-vscode-workflow.html" data-tags="web,tipstrik">
-    <div class="log-card-top">
-      <span class="log-num-badge">#008</span>
-      <span class="log-date"><span class="live-dot"></span>Jumat, 8 Mei 2026</span>
-      <div class="log-tags">
-        <span class="tag tag-web">🌐 Web</span>
-        <span class="tag tag-mekanik">💡 Tips &amp; Trik</span>
-      </div>
-    </div>
-    <div class="log-title">Upgrade Workflow: Dari Terminal Buta ke VSCode + Live Server</div>
-    <div class="log-desc">Drama git rejected, foto hilang, path gambar kacau — semua terjadi hari ini. Plus cara kerja Live Server yang bikin workflow Bunker jauh lebih proper.</div>
-    <div class="log-card-bottom">
-      <div class="log-sections">
-        <span class="section-pill">VSCode</span>
-        <span class="section-pill">Live Server</span>
-        <span class="section-pill">Git Workflow</span>
-      </div>
-      <span class="log-arrow">Baca →</span>
-    </div>
-  </a>
-       <!-- LOG #007 — Digital Legacy -->
-  <a class="log-card" id="entry-log007" href="../digital-legacy-bayu.html" data-tags="web,tipstrik,personal">
-    <div class="log-card-top">
-      <span class="log-num-badge">#007</span>
-      <span class="log-date"><span class="live-dot"></span>Jumat, 8 Mei 2026</span>
-      <div class="log-tags">
-        <span class="tag tag-web">🌐 Web</span>
-        <span class="tag tag-mekanik">💡 Tips &amp; Trik</span>
-        <span class="tag tag-filosofi">❤️ Personal</span>
-      </div>
-    </div>
-    <div class="log-title">Digital Legacy: Jurus Amankan Kenangan Si Bontot Biar Abadi di Dunia Maya</div>
-    <div class="log-desc">Cara menjaga kenangan digital almarhum Bayu (Si Bontot) biar tetap live. Backup 3-2-1, legacy contact Facebook, plus bunker memorial khusus di GitHub Pages — gratis selamanya.</div>
-    <div class="log-card-bottom">
-      <div class="log-sections">
-        <span class="section-pill">Backup 3-2-1</span>
-        <span class="section-pill">Legacy Contact FB</span>
-        <span class="section-pill">GitHub Memorial</span>
-      </div>
-      <span class="log-arrow">Baca →</span>
-    </div>
-  </a>
-<!-- LOG #087 — Drama CoreTax -->
-<!-- LOG: Blog Pasang Tombol Donasi -->
-  <a class="log-card" id="entry-log006" href="../log-006-bunker-opanowski.html" data-tags="web,tipstrik">
-    <div class="log-card-top">
-      <span class="log-num-badge">#006</span>
-      <span class="log-date"><span class="live-dot"></span>7 Mei 2026</span>
-      <div class="log-tags">
-        <span class="tag tag-web">📊 Analytics</span>
-        <span class="tag tag-web">🔍 SEO</span>
-      </div>
-    </div>
-    <div class="log-title">Analisis Dapur Bunker Opanowski — Dari Ciracas Menuju Global</div>
-    <div class="log-desc">Google Page 1 tercapai, engagement time tembus 4 menit 35 detik, trafik dari Singapura, Amerika, sampai Swedia. Data udah bicara kalau Bunker ini eksis.</div>
-    <div class="log-card-bottom">
-      <div class="log-sections">
-        <span class="section-pill">Google Analytics</span>
-        <span class="section-pill">SEO Organik</span>
-        <span class="section-pill">Go International</span>
-      </div>
-      <span class="log-arrow">Baca →</span>
-    </div>
-  </a>
-  <a class="log-card" id="entry-donasi" href="../blog-pasang-tombol-donasi.html" data-tags="web,tipstrik">
-    <div class="log-card-top">
-      <span class="log-num-badge">DevLog</span>
-      <span class="log-date"><span class="live-dot"></span>Rabu, 7 Mei 2026</span>
-      <div class="log-tags">
-        <span class="tag tag-web">🌐 Web</span>
-        <span class="tag tag-mekanik">💡 Tips &amp; Trik</span>
-      </div>
-    </div>
-    <div class="log-title">Digital Swasembada: Traktir Kopi di Bunker Opanowski!</div>
-    <div class="log-desc">Tombol donasi akhirnya landing di Bunker. Dari drama z-index terminal Mac sampai filosofi kenapa karya digital juga butuh pupuk.</div>
-    <div class="log-card-bottom">
-      <div class="log-sections">
-        <span class="section-pill">Donate Widget</span>
-        <span class="section-pill">z-index Fix</span>
-        <span class="section-pill">Trakteer &amp; Saweria</span>
-      </div>
-      <span class="log-arrow">Baca →</span>
-    </div>
-  </a>
-
-<a class="log-card" id="entry-mekanik-soon" href="../coming-soon.html" data-tags="mekanik" style="opacity:0.75;border-style:dashed">
-  <div class="log-card-top">
-    <span class="log-num-badge">🛠️</span>
-    <span class="log-date">Segera Hadir</span>
-    <div class="log-tags">
-      <span class="tag tag-mekanik">🔧 Mekanik</span>
-    </div>
-  </div>
-  <div class="log-title">Blog Mekanik — Lagi Dirakit, Bro!</div>
-  <div class="log-desc">Konten kategori Mekanik masih dalam tahap pengerjaan. Ngopi dulu aja sambil nunggu update-nya.</div>
-  <div class="log-card-bottom">
-    <div class="log-sections">
-      <span class="section-pill">Coming Soon</span>
-    </div>
-    <span class="log-arrow">Lihat →</span>
-  </div>
-</a>
-
-<a class="log-card" id="entry-log087" href="../pajak_zonk.html" data-tags="tipstrik">
-  <div class="log-card-top">
-    <span class="log-num-badge">#087</span>
-    <span class="log-date"><span class="live-dot"></span>Selasa, 5 Mei 2026</span>
-    <div class="log-tags">
-      <span class="tag tag-mekanik">💡 Tips & Trik</span>
-      <span class="tag tag-web">🌐 Digital</span>
-    </div>
-  </div>
-  <div class="log-title">Drama Registrasi CoreTax: Ketika 'Valid' Menjadi 'Gagal'</div>
-  <div class="log-desc">Niat taat pajak via portal CoreTax berujung drama teknis. Validasi foto berhasil, pulsa kepotong, semua centang hijau — tapi pas klik Simpan? "Operasi Gagal". Catatan lapangan dari Bunker Opanowski.</div>
-  <div class="log-card-bottom">
-    <div class="log-sections">
-      <span class="section-pill">CoreTax Bug</span>
-      <span class="section-pill">Biometrik Fail</span>
-      <span class="section-pill">Iriun Webcam</span>
-      <span class="section-pill">Shopee Affiliate</span>
-    </div>
-    <span class="log-arrow">Baca →</span>
-  </div>
-</a>
-  <!-- LOG #086 -->
-  <a class="log-card" id="entry-log086" href="../blog-log086-pisang-telur.html" data-tags="farming">
-    <div class="log-card-top">
-      <span class="log-num-badge">#086</span>
-      <span class="log-date"><span class="live-dot"></span>Sabtu, 3 Mei 2026</span>
-      <div class="log-tags">
-        <span class="tag tag-farming">🌱 Urban Farming</span>
-        <span class="tag tag-youtube">📺 YouTube</span>
-      </div>
-    </div>
-    <div class="log-title">Tebang Pisang, Mulsa Organik & Panen Telur — Distribusi ke Belasan Grup Urban Farming</div>
-    <div class="log-desc">Pohon pisang ditebang hari ini: daun ke dapur ibu, batang dicacah jadi mulsa organik "kulkas alami". Panen telur harian dari kandang aviary tetap lancar. Dua Shorts baru langsung di-crosspost admin ke belasan grup Urban Farming besar.</div>
-    <div class="log-card-bottom">
-      <div class="log-sections">
-        <span class="section-pill">Batang Pisang → Mulsa</span>
-        <span class="section-pill">Panen Telur Aviary</span>
-        <span class="section-pill">Shorts Viral FB</span>
-      </div>
-      <span class="log-arrow">Baca →</span>
-    </div>
-  </a>
-
-  <!-- ARTIKEL: Evolusi Digital & Swasembada (FINAL) -->
-  <a class="log-card" id="entry-evolusi-digital-swasembada" href="../blog-evolusi-digital-swasembada.html" data-tags="web,filosofi,farming">
-    <div class="log-card-top">
-      <span class="log-num-badge">Artikel</span>
-      <span class="log-date"><span class="live-dot"></span>Sabtu, 3 Mei 2026</span>
-      <div class="log-tags">
-        <span class="tag tag-web">🌐 Digital</span>
-        <span class="tag tag-farming">🌱 Urban Farming</span>
-        <span class="tag tag-filosofi">🧭 Filosofi</span>
-      </div>
-    </div>
-    <div class="log-title">Evolusi Digital & Swasembada: Dari Ciracas ke Lingkar Arktik</div>
-    <div class="log-desc">Jangkauan profil meledak +9.622% dengan 1.750 tayangan. 99.8% penonton adalah non-pengikut. Reel 'Siapa Sangka' tembus 700 views. Ada pengunjung dari Luleå, Swedia — 10.000km+ dari Ciracas.</div>
-    <div class="log-card-bottom">
-      <div class="log-sections">
-        <span class="section-pill">+9.622% Jangkauan</span>
-        <span class="section-pill">99.8% Non-Pengikut</span>
-        <span class="section-pill">Ciracas → Arktik</span>
-      </div>
-      <span class="log-arrow">Baca →</span>
-    </div>
-  </a>
-
-  <!-- ARTIKEL: Evolusi Digital & Swasembada Ciracas -->
-  <a class="log-card" id="entry-evolusi-swasembada" href="../blog-evolusi-swasembada.html" data-tags="web,filosofi">
-    <div class="log-card-top">
-      <span class="log-num-badge">Artikel</span>
-      <span class="log-date"><span class="live-dot"></span>Sabtu, 3 Mei 2026</span>
-      <div class="log-tags">
-        <span class="tag tag-web">🌐 Web</span>
-        <span class="tag tag-filosofi">🧭 Filosofi</span>
-      </div>
-    </div>
-    <div class="log-title">Evolusi Digital & Swasembada Ciracas</div>
-    <div class="log-desc">51 file revisi, 3 AI, 29 pengunjung dari 4 benua — dan sebatang pohon pisang yang ditebang di hari yang sama. Catatan teknis yang emosional dari perjalanan 5 hari membangun ekosistem digital mandiri di GitHub Pages.</div>
-    <div class="log-card-bottom">
-      <div class="log-sections">
-        <span class="section-pill">index(51).html</span>
-        <span class="section-pill">AI Literacy</span>
-        <span class="section-pill">Analytics Global</span>
-      </div>
-      <span class="log-arrow">Baca →</span>
-    </div>
-  </a>
-
-  <!-- ARTIKEL: Konsistensi Brand -->
-  <a class="log-card" id="entry-brand-konsistensi" href="../blog-brand-konsistensi.html" data-tags="filosofi">
-    <div class="log-card-top">
-      <span class="log-num-badge">Artikel</span>
-      <span class="log-date"><span class="live-dot"></span>Mei 2026</span>
-      <div class="log-tags">
-        <span class="tag tag-filosofi">Filosofi</span>
-        <span class="tag tag-web">Web</span>
-      </div>
-    </div>
-    <div class="log-title">Konsistensi Brand & Optimasi Kerja Digital</div>
-    <div class="log-desc">Dari akun personal jadi Bunker Opanowski yang utuh — satu nama di 5 platform, baca data Facebook kayak baca kartu motor, plus tips produktivitas dari MacBook Pro 2015 yang masih kencang.</div>
-    <div class="log-card-bottom">
-      <div class="log-sections">
-        <span class="section-pill">Branding Seragam</span>
-        <span class="section-pill">Facebook Insight</span>
-        <span class="section-pill">MacBook Tips</span>
-      </div>
-      <span class="log-arrow">Baca →</span>
-    </div>
-  </a>
-
-  <!-- LOG #004 — Seledri Organik -->
-  <a class="log-card" id="entry-log004" href="../blog-seledri-organik.html" data-tags="farming,lifestyle">
-    <div class="log-card-top">
-      <span class="log-num-badge">#004</span>
-      <span class="log-date"><span class="live-dot"></span>Minggu, 4 Mei 2026</span>
-      <div class="log-tags">
-        <span class="tag tag-farming">Kebun</span>
-      </div>
-    </div>
-    <div class="log-title">Seledri di Pot, Healing di Pagi Hari</div>
-    <div class="log-desc">Subuh di Villa Ciracas, secangkir Top Kopi Gula Aren, dan seledri organik yang tumbuh diam-diam. Kenapa menanam itu obat paling murah buat kepala yang pusing.</div>
-    <div class="log-card-bottom">
-      <div class="log-sections">
-        <span class="section-pill">Seledri Organik</span>
-        <span class="section-pill">Healing Subuh</span>
-      </div>
-      <span class="log-arrow">Baca →</span>
-    </div>
-  </a>
-
-  <!-- LOG #003 — Bye-bye Kabel -->
-  <a class="log-card" id="entry-log003" href="../blog-log05-bye-kabel.html" data-tags="gadget,web">
-    <div class="log-card-top">
-      <span class="log-num-badge">#003</span>
-      <span class="log-date"><span class="live-dot"></span>Jum'at, 2 Mei 2026</span>
-      <div class="log-tags">
-        <span class="tag tag-gadget">Gadget</span>
-      </div>
-    </div>
-    <div class="log-title">Bye-bye Kabel! Optimasi Transfer Data & Branding Baru</div>
-    <div class="log-desc">LocalSend kirim 80MB video kebun dalam sekejap, TikTok resmi seragam jadi @opanowski, dan Facebook Pro nunjukin kenaikan tayangan 5.524%.</div>
-    <div class="log-card-bottom">
-      <div class="log-sections">
-        <span class="section-pill">LocalSend Transfer</span>
-        <span class="section-pill">FB Insight 5.524%</span>
-      </div>
-      <span class="log-arrow">Baca →</span>
-    </div>
-  </a>
-
-  <!-- LOG #002 -->
-  <a class="log-card" id="entry-log002" href="../blog-evolusi-digital.html" data-tags="web">
-    <div class="log-card-top">
-      <span class="log-num-badge">#002</span>
-      <span class="log-date">Mei 2026</span>
-      <div class="log-tags">
-        <span class="tag tag-web">GitHub</span>
-        <span class="tag tag-ai">AI</span>
-      </div>
-    </div>
-    <div class="log-title">Evolusi Digital & Markas Global di GitHub</div>
-    <div class="log-desc">Migrasi total tinggalkan Netlify, konsolidasi ke GitHub Pages satu pintu. Video Sniper Bunglon tembus 14.900 menit tayang setara 248 jam.</div>
-    <div class="log-card-bottom">
-      <div class="log-sections">
-        <span class="section-pill">GitHub Pages</span>
-        <span class="section-pill">14.9K Menit Tayang</span>
-      </div>
-      <span class="log-arrow">Baca →</span>
-    </div>
-  </a>
-
-  <!-- LOG #001 -->
-  <a class="log-card" id="entry-log001" href="../log-bunker-opanowski-01.html" data-tags="youtube">
-    <div class="log-card-top">
-      <span class="log-num-badge">#001</span>
-      <span class="log-date"><span class="live-dot"></span>Kamis, 1 Mei 2026</span>
-      <div class="log-tags">
-        <span class="tag tag-youtube">YouTube</span>
-      </div>
-    </div>
-    <div class="log-title">Peresmian Markas Digital</div>
-    <div class="log-desc">Hari bersejarah: 4 pilar konten YouTube resmi dibangun, video perdana 'Nol Sampah, Nol Hutang' diluncurkan ke publik.</div>
-    <div class="log-card-bottom">
-      <div class="log-sections">
-        <span class="section-pill">Ekosistem YouTube</span>
-        <span class="section-pill">Video Launch</span>
-      </div>
-      <span class="log-arrow">Baca →</span>
-    </div>
-  </a>
-
-  <!-- ARTIKEL: Website AI -->
-  <div class="artikel-card" id="entry-website-ai" data-tags="ai" onclick="toggleArtikel(this)">
-    <div class="artikel-header">
-      <div class="artikel-header-left">
-        <div class="artikel-meta">
-          <span class="artikel-date">Mei 2026</span>
-          <span class="artikel-badge artikel-badge-blue">AI · Web · Autodidak</span>
-        </div>
-        <div class="artikel-title">🌐 Website Pribadi Ala Opanowski — <em>3 Hari, 3 AI, Tanpa Coding</em></div>
-      </div>
-      <span class="chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
-    </div>
-    <div class="artikel-body">
-      <p>Siapa bilang bikin website itu harus ngerti coding dulu? Di era 2026 ini, seorang autodidak dari Ciracas berhasil bikin website pribadi yang proper hanya dalam 3 hari. Senjatanya? Tiga AI sekaligus.</p>
-      <div class="acc-box gold">
-        <div class="acc-box-label">📅 Dulu vs Sekarang</div>
-        <div>❌ <strong>Belajar coding dulu</strong> — butuh berbulan-bulan</div>
-        <div>❌ <strong>Bayar developer</strong> — keluar jutaan rupiah</div>
-        <div>✅ <strong>Kolaborasi 3 AI — 3 hari — Gratis — Hasilnya custom & personal</strong> 🔥</div>
-      </div>
-      <div class="acc-box green">
-        <div class="acc-box-label">🤖 Strategi: Orkestrasi 3 AI</div>
-        <div><strong style="color:#5b8dee">Claude</strong> → Diskusi konsep, struktur konten, problem solving</div>
-        <div><strong style="color:#4caf7d">Gemini</strong> → Riset referensi, rangkum inspirasi dari YouTube & Google</div>
-        <div><strong style="color:#e05a5a">ChatGPT</strong> → Cross-check hasil, alternatif solusi, second opinion</div>
-      </div>
-      <div class="acc-quote">"Belajar sampai menutup mata — termasuk belajar ngobrol sama AI." 🤖☕</div>
-    </div>
-  </div>
-
-  <!-- ARTIKEL: M4A ke MP3 -->
-  <div class="artikel-card" id="entry-m4a-mp3" data-tags="tipstrik" onclick="toggleArtikel(this)">
-    <div class="artikel-header">
-      <div class="artikel-header-left">
-        <div class="artikel-meta">
-          <span class="artikel-date">April 2026</span>
-          <span class="artikel-badge" style="background:rgba(245,166,35,0.1);border:1px solid rgba(245,166,35,0.25);color:#f5a623">💡 Tips & Trik</span>
-        </div>
-        <div class="artikel-title">🛠️ Konversi M4A ke MP3 di Mac Jadul — <em>Tanpa Aplikasi Berbayar</em></div>
-      </div>
-      <span class="chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
-    </div>
-    <div class="artikel-body">
-      <p>MacBook Pro Mid 2015. File <code class="code-tag">.m4a</code> 41.9 MB hasil rekaman audio konten. Tujuan sederhana: konversi ke <code class="code-tag">.mp3</code> biar lebih ringan & kompatibel buat web dan sosmed.</p>
-      <div class="acc-box red">
-        <div class="acc-box-label">⚠️ Yang Gagal Dicoba</div>
-        <div>❌ iTunes/Music App — bunyi "cling", file dianggap missing</div>
-        <div>❌ Terminal afconvert — format string invalid di macOS 2015</div>
-        <div>❌ VLC awal — hasil konversi cuma 3 KB, file corrupt</div>
-      </div>
-      <div class="acc-box green">
-        <div class="acc-box-label">✅ Solusi Yang Berhasil — The Om Opan Way</div>
-        <div><strong>1.</strong> Buka VLC → File → Convert/Stream</div>
-        <div><strong>2.</strong> Pilih profil <strong>Audio - MP3</strong></div>
-        <div><strong>3.</strong> Output tidak terbaca? Rename manual, tambah ekstensi <code class="code-tag">.mp3</code></div>
-        <div><strong>4.</strong> Hasil: <strong>28.9 MB, berfungsi sempurna ✅</strong></div>
-      </div>
-      <div class="acc-quote">"Troubleshoot dulu, minta tolong belakangan. Kalau ketemu solusinya — dokumentasikan." 🔧</div>
-    </div>
-  </div>
-
-</div>
-  <!-- ARTIKEL: 2 Hari Berperang dengan Kode & Warna -->
-  <a class="log-card" id="entry-perang-kode" href="blog-pindah-gambar-ganti-warna.html" data-tags="web">
-    <div class="log-card-top">
-      <span class="log-num-badge">Artikel</span>
-      <span class="log-date"><span class="live-dot"></span>5 Mei 2026</span>
-      <div class="log-tags">
-        <span class="tag tag-web">🌐 Dibalik Layar</span>
-      </div>
-    </div>
-    <div class="log-title">2 Hari Berperang dengan Kode & Warna</div>
-    <div class="log-desc">Cerita di balik layar: pindah 17 gambar dari Imgur ke GitHub, rename file puluhan kali, dan berantem sama warna ungu yang membandel. Bukan programmer, tapi beres. ☕</div>
-    <div class="log-card-bottom">
-      <div class="log-sections">
-        <span class="section-pill">Gambar Lokal</span>
-        <span class="section-pill">Warna Kontras</span>
-        <span class="section-pill">GitHub</span>
-      </div>
-      <span class="log-arrow">Baca →</span>
-    </div>
-  </a>
-<!-- ============================================================
-     CATATAN SANTAI — Rutinitas harian, obrolan ringan, dll.
-     ============================================================ -->
-<div class="section-header" id="section-santai">
-  ☕ Catatan Santai <span class="count">1 entri</span>
-</div>
-
-<div class="log-list" id="santai-list">
-
-  <!-- CATATAN SANTAI #001 — Kenangan Bandung -->
-  <a class="log-card" id="entry-kenangan-bandung" href="blog-kenangan-bandung-nyokap-bayu.html" data-tags="santai">
-    <div class="log-card-top">
-      <span class="log-num-badge">☕ Santai</span>
-      <span class="log-date"><span class="live-dot"></span>Minggu, 10 Mei 2026</span>
-      <div class="log-tags">
-        <span class="tag tag-filosofi">❤️ Keluarga</span>
-        <span class="tag tag-filosofi">🕊️ In Memoriam</span>
-      </div>
-    </div>
-    <div class="log-title">Jejak Memori di Bandung: Tentang Ramen, Nyokap, dan Kepergian sang Bontot</div>
-    <div class="log-desc">Membuka folder lama, ketemu foto Nyokap nikmatin ramen di Bandung bareng almarhum adik bontot, Bayu. Foto diproses ulang pakai GIMP di Mac jadul — sebagai bentuk penghormatan untuk memori indah kami. Al-Fatihah. 🍜❤️</div>
-    <div class="log-card-bottom">
-      <div class="log-sections">
-        <span class="section-pill">Kenangan Bandung</span>
-        <span class="section-pill">Alm. Bayu</span>
-        <span class="section-pill">GIMP Processed</span>
-      </div>
-      <span class="log-arrow">Baca →</span>
-    </div>
-  </a>
-
-</div>
-
-<div class="no-result" id="no-result">Tidak ada entri yang cocok 🔍</div>
-
-<footer class="site-footer">
-  Bunker Opanowski — Log Harian
-  <span class="updated-tag"><span class="live-dot"></span>Mei 2026</span>
-  <div class="social-links">
-    <a href="https://www.facebook.com/profile.php?id=61560342106832" target="_blank" rel="noopener">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg> Facebook
-    </a>
-    <a href="https://www.instagram.com/opanowski/" target="_blank" rel="noopener">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg> Instagram
-    </a>
-    <a href="https://www.youtube.com/channel/UCgsJ-a0Cg20xdsn-e_42-yQ" target="_blank" rel="noopener">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.95C5.12 20 12 20 12 20s6.88 0 8.59-.47a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg> YouTube
-    </a>
-  </div>
+<footer>
+  <p>Data berdasarkan regulasi pemilahan sampah DKI Jakarta &middot; <a href="https://ozbopan.github.io">ozbopan.github.io</a></p>
+  <p style="margin-top:6px">Gratis, tanpa iklan, untuk warga Jakarta.</p>
 </footer>
 
 <script>
-function toggleArtikel(el) { el.classList.toggle('open'); }
+const data = [
+  {
+    id: "organik",
+    kategori: "Organik",
+    warna: "Hijau",
+    dot: "🟢",
+    deskripsi: "Dapat terurai secara alami oleh mikroorganisme. Sifatnya basah dan bisa diolah menjadi kompos.",
+    tips: "JANGAN memasukkan kantong plastik pembungkusnya ke tempat sampah ini! Wadahi sampah organik dalam kondisi tanpa plastik.",
+    items: ["Sisa Makanan","Buah Busuk","Sayur Layu","Kulit Buah","Daun Kering","Ranting Pohon","Ampas Kopi","Teh Celup Bekas","Tulang Ikan","Tulang Daging","Cangkang Telur","Rumput Potongan","Kulit Kacang","Nasi Basi","Roti Berjamur","Bunga Layu"]
+  },
+  {
+    id: "anorganik",
+    kategori: "Anorganik",
+    warna: "Biru",
+    dot: "🔵",
+    deskripsi: "Sulit atau tidak dapat terurai secara alami, namun bernilai ekonomis tinggi karena bisa didaur ulang.",
+    tips: "Pastikan sampah dalam kondisi BERSIH dan KERING. Bilas sisa susu/sirup di botol/kaleng agar tidak bau dan mengundang semut.",
+    items: ["Botol Plastik","Kertas Koran","Kardus Bekas","Kaleng Minuman","Botol Kaca","Kantong Plastik","Sedotan Plastik","Tutup Botol","Kemasan Sachet","Mainan Plastik Rusak","Gelas Plastik","Wadah Makanan Plastik","Kawat","Logam Kecil","Kaset CD","Kaset DVD","Kabel Bekas"]
+  },
+  {
+    id: "residu",
+    kategori: "Residu",
+    warna: "Kuning",
+    dot: "🟡",
+    deskripsi: "Sampah yang sangat sulit atau tidak bisa didaur ulang, namun tidak mengandung bahan beracun.",
+    tips: "Sampah inilah yang benar-benar akan dikirim ke TPA/Bantargebang. Sebisa mungkin kurangi penggunaan barang-barang di kategori ini.",
+    items: ["Popok Bekas","Pembalut Wanita","Tisu Kotor","Permen Karet","Styrofoam","Puntung Rokok","Kapas Bekas","Masker Medis","Cotton Bud","Bungkus Makanan Berminyak","Kertas Nasi","Sikat Gigi Bekas","Gelas Kopi Sekali Pakai","Plastik Laminating","Lakban","Perekat"]
+  },
+  {
+    id: "b3",
+    kategori: "B3 (Bahan Berbahaya & Beracun)",
+    warna: "Merah",
+    dot: "🔴",
+    deskripsi: "Mengandung zat berbahaya atau beracun yang memerlukan penanganan khusus agar tidak mencemari lingkungan.",
+    tips: "SANGAT BERBAHAYA jika tercampur! Zat kimianya bisa merembes ke air tanah atau memicu ledakan/kebakaran di truk sampah.",
+    items: ["Baterai Bekas","Lampu Neon Rusak","Lampu LED Rusak","Kaleng Aerosol","Kaleng Cat Bekas","Botol Pelarut Kimia","Pestisida","Insektisida","Obat-obatan Kadaluarsa","Termometer Air Raksa","Aki Kendaraan","Peralatan Elektronik Rusak","Toner Printer Bekas","Tinta Printer","Botol Kosong Pembersih Lantai","Wadah Bahan Kimia Laboratorium","Minyak Pelumas Bekas","Oli Bekas"]
+  }
+];
 
-let currentTag = 'ALL', currentSearch = '';
+const catGrid = document.getElementById("catGrid");
+data.forEach(d => {
+  const card = document.createElement("div");
+  card.className = `cat-card ${d.id}`;
+  const visibleItems = d.items.slice(0, 9);
+  const extra = d.items.length - visibleItems.length;
+  card.innerHTML = `
+    <div class="cat-header">
+      <div class="cat-dot"></div>
+      <div class="cat-name">${d.warna} — ${d.id === "b3" ? "B3" : d.kategori}</div>
+    </div>
+    <div class="cat-desc">${d.deskripsi}</div>
+    <div class="tags">
+      ${visibleItems.map(i => `<span class="tag">${i}</span>`).join("")}
+      ${extra > 0 ? `<span class="tag">+${extra} lagi</span>` : ""}
+    </div>`;
+  catGrid.appendChild(card);
+});
 
-function filterTag(tag, btn) {
-  currentTag = tag;
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  btn.classList.add('active');
-  applyFilter();
-}
+const inp = document.getElementById("searchInput");
+const clearBtn = document.getElementById("clearBtn");
+const resultBox = document.getElementById("result-box");
+const resultList = document.getElementById("resultList");
+const resultHeader = document.getElementById("resultHeader");
+const mainContent = document.getElementById("mainContent");
 
-function doSearch() {
-  currentSearch = document.getElementById('searchInput').value.toLowerCase();
-  applyFilter();
-}
+function doSearch(q) {
+  if (!q) {
+    resultBox.style.display = "none";
+    mainContent.style.display = "";
+    clearBtn.style.display = "none";
+    return;
+  }
+  clearBtn.style.display = "block";
+  mainContent.style.display = "none";
+  resultBox.style.display = "block";
 
-function applyFilter() {
-  const entries = document.querySelectorAll('[data-tags]');
-  let count = 0;
-  entries.forEach(el => {
-    const tags = el.getAttribute('data-tags').split(',').map(t => t.trim());
-    const text = el.innerText.toLowerCase();
-    const matchTag = currentTag === 'ALL' || tags.includes(currentTag);
-    const matchSearch = !currentSearch || text.includes(currentSearch) || tags.some(t => t.includes(currentSearch));
-    if (matchTag && matchSearch) { el.style.display = ''; count++; }
-    else { el.style.display = 'none'; }
+  const matches = [];
+  data.forEach(d => {
+    d.items.forEach(item => {
+      if (item.toLowerCase().includes(q.toLowerCase())) {
+        matches.push({ item, d });
+      }
+    });
   });
 
-  // Sembunyikan section Catatan Santai kalau filter bukan ALL atau santai
-  const showSantai = currentTag === 'ALL' || currentTag === 'santai';
-  document.getElementById('section-santai').style.display = showSantai ? '' : 'none';
-  document.getElementById('santai-list').style.display = showSantai ? '' : 'none';
+  if (!matches.length) {
+    resultHeader.textContent = "";
+    resultList.innerHTML = `<div class="no-result"><span class="emoji">🤔</span><strong style="color:#e6edf3;display:block;margin-bottom:6px">Tidak ditemukan untuk "${inp.value}"</strong><span style="font-size:13px">Coba kata kunci lain, atau tanyakan ke petugas RT/RW setempat.</span></div>`;
+    return;
+  }
 
-  document.getElementById('visible-count').textContent = count + ' entri';
-  document.getElementById('stat-visible').textContent = count;
-  document.getElementById('no-result').style.display = count === 0 ? 'block' : 'none';
+  resultHeader.textContent = `${matches.length} hasil untuk "${inp.value}"`;
+  resultList.innerHTML = matches.map(({ item, d }) => `
+    <div class="result-card rc-${d.id}">
+      <div class="badge">${d.dot} Tempat Sampah ${d.warna} &mdash; ${d.kategori}</div>
+      <div class="item-name">${item}</div>
+      <div class="desc">${d.deskripsi}</div>
+      <div class="tips-box"><strong>Tips penting</strong>${d.tips}</div>
+    </div>`).join("");
 }
+
+inp.addEventListener("input", () => doSearch(inp.value.trim()));
+clearBtn.addEventListener("click", () => {
+  inp.value = "";
+  doSearch("");
+  inp.focus();
+});
 </script>
-<script src="/opanowski/donate-widget.js"></script>
 </body>
 </html>
