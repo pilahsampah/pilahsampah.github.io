@@ -46,20 +46,33 @@ body {
 
 /* HERO */
 .hero {
-  padding: 3rem 1.25rem 2.5rem;
+  padding: 4rem 1.25rem 3rem;
   text-align: center;
-  border-bottom: 1px solid var(--border);
   position: relative;
   overflow: hidden;
+  background-image: url('images/section_hero.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .hero::before {
   content: '';
   position: absolute;
-  top: -60px; left: 50%; transform: translateX(-50%);
-  width: 600px; height: 300px;
-  background: radial-gradient(ellipse, rgba(63,185,80,0.08) 0%, transparent 70%);
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(13,17,23,0.1) 0%,
+    rgba(13,17,23,0.4) 60%,
+    rgba(13,17,23,1.0) 100%
+  );
   pointer-events: none;
+  z-index: 0;
+}
+
+.hero > * {
+  position: relative;
+  z-index: 1;
 }
 
 .hero-badge {
@@ -223,11 +236,11 @@ body {
 .main-section { max-width: 960px; margin: 0 auto; padding: 1.5rem 1.25rem; }
 
 .section-label {
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.1em;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
-  color: var(--muted);
+  color: var(--text);
   margin-bottom: 1rem;
 }
 
@@ -377,11 +390,11 @@ body {
 }
 
 .rt-section-label {
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.1em;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
-  color: var(--muted);
+  color: var(--text);
   margin-bottom: 1rem;
 }
 
@@ -531,11 +544,11 @@ body {
 
 /* Foto section */
 .rt-photos-label {
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.1em;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
-  color: var(--muted);
+  color: var(--text);
   margin: 1.25rem 0 0.75rem;
 }
 
