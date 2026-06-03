@@ -631,6 +631,83 @@ footer {
 }
 
 footer a { color: var(--green); text-decoration: none; }
+
+/* RT MODE TOGGLE */
+.rt-toggle-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.rt-toggle-wrap .toggle-label {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+
+.rt-toggle-wrap .toggle-label.active { color: var(--text); font-weight: 700; }
+
+.toggle-pill {
+  position: relative;
+  width: 48px;
+  height: 26px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background 0.25s, border-color 0.25s;
+  flex-shrink: 0;
+}
+
+.toggle-pill input { position: absolute; opacity: 0; width: 0; height: 0; }
+
+.toggle-knob {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  background: var(--muted);
+  border-radius: 50%;
+  transition: transform 0.25s, background 0.25s;
+}
+
+.toggle-pill input:checked ~ .toggle-knob {
+  transform: translateX(22px);
+  background: #e2c97e;
+}
+
+.toggle-pill input:checked {
+  /* just for state tracking */
+}
+
+.rt-mode-active .toggle-pill {
+  background: rgba(226,201,126,0.15);
+  border-color: rgba(226,201,126,0.4);
+}
+
+/* RT note di dalam result card */
+.rt-local-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-top: 10px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  line-height: 1.55;
+  background: rgba(226,201,126,0.08);
+  border: 1px solid rgba(226,201,126,0.25);
+  color: #e2c97e;
+}
+
+.rt-local-note .note-icon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
 </style>
 </head>
 <body>
@@ -779,9 +856,15 @@ footer a { color: var(--green); text-decoration: none; }
     <input type="text" id="searchInput" placeholder="Cari nama sampah... misal: popok, botol, baterai, nasi basi" autocomplete="off" spellcheck="false" />
     <button class="clear-btn" id="clearBtn" aria-label="Hapus pencarian">✕</button>
   </div>
+  <div class="rt-toggle-wrap" id="rtToggleWrap">
+    <span class="toggle-label active" id="labelDKI">Standar DKI</span>
+    <label class="toggle-pill" title="Mode RT 001/04 Ciracas">
+      <input type="checkbox" id="rtModeToggle">
+      <span class="toggle-knob"></span>
+    </label>
+    <span class="toggle-label" id="labelRT">RT 001/04</span>
+  </div>
 </div>
-
-<div id="result-box">
   <p class="result-header" id="resultHeader"></p>
   <div id="resultList"></div>
 </div>
@@ -818,6 +901,16 @@ footer a { color: var(--green); text-decoration: none; }
 </footer>
 
 <script>
+// Pemetaan warna tong di RT 001/04 Ciracas (berbeda dari standar DKI)
+const rtLocalColor = {
+  organik:   { warna: "Biru",   dot: "🔵", pill: "pill-blue",   note: "Di RT 001/04: buang ke <strong>tong BIRU</strong> (bukan hijau seperti standar DKI). Patokan: baca label tulisan di tong." },
+  anorganik: { warna: "Biru",   dot: "🔵", pill: "pill-blue",   note: "Di RT 001/04: tong BIRU — sama dengan standar DKI." },
+  residu:    { warna: "Hijau",  dot: "🟢", pill: "pill-green",  note: "Di RT 001/04: buang ke <strong>tong HIJAU</strong> (bukan kuning seperti standar DKI). Patokan: baca label tulisan di tong." },
+  b3:        { warna: "Merah",  dot: "🔴", pill: "pill-red",    note: "Di RT 001/04: tong MERAH — sama dengan standar DKI." }
+};
+
+let rtMode = false;
+
 const data = [
   {
     id: "organik",
@@ -910,13 +1003,23 @@ function doSearch(q) {
   }
 
   resultHeader.textContent = `${matches.length} hasil untuk "${inp.value}"`;
-  resultList.innerHTML = matches.map(({ item, d }) => `
+  resultList.innerHTML = matches.map(({ item, d }) => {
+    const local = rtLocalColor[d.id];
+    const useRT = rtMode;
+    const warna  = useRT ? local.warna : d.warna;
+    const dot    = useRT ? local.dot   : d.dot;
+    const rtNote = useRT
+      ? `<div class="rt-local-note"><span class="note-icon">📍</span><span>${local.note}</span></div>`
+      : "";
+    return `
     <div class="result-card rc-${d.id}">
-      <div class="badge">${d.dot} Tempat Sampah ${d.warna} &mdash; ${d.kategori}</div>
+      <div class="badge">${dot} Tempat Sampah ${warna} &mdash; ${d.kategori}</div>
       <div class="item-name">${item}</div>
       <div class="desc">${d.deskripsi}</div>
       <div class="tips-box"><strong>Tips penting</strong>${d.tips}</div>
-    </div>`).join("");
+      ${rtNote}
+    </div>`;
+  }).join("");
 }
 
 inp.addEventListener("input", () => doSearch(inp.value.trim()));
@@ -924,6 +1027,27 @@ clearBtn.addEventListener("click", () => {
   inp.value = "";
   doSearch("");
   inp.focus();
+});
+
+// RT Mode toggle
+const rtToggle = document.getElementById("rtModeToggle");
+const toggleWrap = document.getElementById("rtToggleWrap");
+const labelDKI = document.getElementById("labelDKI");
+const labelRT  = document.getElementById("labelRT");
+
+rtToggle.addEventListener("change", () => {
+  rtMode = rtToggle.checked;
+  if (rtMode) {
+    toggleWrap.classList.add("rt-mode-active");
+    labelDKI.classList.remove("active");
+    labelRT.classList.add("active");
+  } else {
+    toggleWrap.classList.remove("rt-mode-active");
+    labelDKI.classList.add("active");
+    labelRT.classList.remove("active");
+  }
+  // Re-render hasil search kalau ada query aktif
+  if (inp.value.trim()) doSearch(inp.value.trim());
 });
 </script>
 </body>
