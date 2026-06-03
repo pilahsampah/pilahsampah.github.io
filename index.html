@@ -6,8 +6,11 @@
 <meta name="description" content="Panduan pemilahan sampah DKI Jakarta — cari nama sampah, langsung tahu warna tempat sampahnya. Organik, Anorganik, Residu, B3.">
 <meta property="og:title" content="Pilah Sampah Jakarta">
 <meta property="og:description" content="Cari nama sampah, langsung tahu harus dibuang ke mana. Gratis, tanpa iklan.">
-<meta property="og:url" content="https://ozbopan.github.io">
+<meta property="og:url" content="https://ozbopan.github.io/">
+<meta property="og:image" content="https://ozbopan.github.io/images/section_hero.jpg">
 <title>Pilah Sampah Jakarta</title>
+<meta name="theme-color" content="#0d1117">
+<link rel="icon" href="images/favicon.ico" type="image/x-icon">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
@@ -38,7 +41,7 @@
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-size: 15px;
   line-height: 1.6;
   min-height: 100vh;
@@ -46,9 +49,8 @@ body {
 
 /* HERO */
 .hero {
-  padding: 4rem 1.25rem 3rem;
+  padding: 4rem 1.25rem 3rem 3rem;
   text-align: left;
-  padding-left: 3rem;
   position: relative;
   overflow: hidden;
   background-image: url('images/section_hero.jpg');
@@ -139,7 +141,7 @@ body {
 #searchInput {
   width: 100%;
   padding: 14px 14px 14px 44px;
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-size: 15px;
   background: var(--surface);
   border: 1px solid var(--border);
@@ -229,7 +231,6 @@ body {
 
 .no-result {
   text-align: left;
-  padding-left: 3rem;
   padding: 3rem 1rem;
   color: var(--muted);
 }
@@ -477,7 +478,7 @@ body {
 /* Jadwal */
 .rt-schedule-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: 10px;
   margin-bottom: 1rem;
 }
@@ -557,7 +558,7 @@ body {
 
 .rt-photo-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: 10px;
   margin-bottom: 1rem;
 }
@@ -622,7 +623,6 @@ body {
 /* FOOTER */
 footer {
   text-align: left;
-  padding-left: 3rem;
   padding: 2rem 1.25rem;
   border-top: 1px solid var(--border);
   font-size: 12px;
@@ -853,7 +853,7 @@ footer a { color: var(--green); text-decoration: none; }
 <div class="search-section">
   <div class="search-wrap">
     <span class="search-icon">🔍</span>
-    <input type="text" id="searchInput" placeholder="Cari nama sampah... misal: popok, botol, baterai, nasi basi" autocomplete="off" spellcheck="false" />
+    <input type="text" id="searchInput" placeholder="Cari nama sampah... misal: popok, botol, baterai, nasi basi" autocomplete="off" spellcheck="false" inputmode="search" />
     <button class="clear-btn" id="clearBtn" aria-label="Hapus pencarian">✕</button>
   </div>
   <div class="rt-toggle-wrap" id="rtToggleWrap">
