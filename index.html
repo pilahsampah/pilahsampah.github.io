@@ -219,6 +219,22 @@ body {
   margin-bottom: 10px;
 }
 
+.wa-share-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 12px;
+  padding: 8px 14px;
+  background: #25D366;
+  color: #fff;
+  font-family: "DM Sans", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 20px;
+  text-decoration: none;
+  transition: opacity .15s;
+}
+.wa-share-btn:hover { opacity: 0.85; }
 .result-card .tips-box {
   font-size: 12px;
   padding: 10px 12px;
@@ -1103,7 +1119,8 @@ function doSearch(q) {
       <div class="tips-box"><strong>Tips penting</strong>${d.tips}</div>
       ${itemNoteHtml}
       ${rtNote}
-    </div>`;
+      <a class="wa-share-btn" href="https://wa.me/?text=${encodeURIComponent('💚 ' + itemName + ' → ' + d.kategori + '\nCek sampah lainnya: pilahsampah.github.io')}" target="_blank" rel="noopener">📤 Bagikan ke WhatsApp</a>
+    `;
   }).join("");
 }
 
