@@ -4,3 +4,7 @@ compatibility_date = "2024-01-01"
 
 [ai]
 binding = "AI"
+
+[[kv_namespaces]]
+binding = "COUNTER"
+id = "58e76bf136f24af98fe40c133d7d1b8e"

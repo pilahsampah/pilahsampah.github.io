@@ -1,0 +1,17 @@
+path = "/Users/user/Desktop/pilahsampah/worker/wrangler.toml"
+
+content = """name = "tanya-pilahsampah"
+main = "src/index.js"
+compatibility_date = "2024-01-01"
+
+[ai]
+binding = "AI"
+
+[[kv_namespaces]]
+binding = "COUNTER"
+id = "58e76bf136f24af98fe40c133d7d1b8e"
+"""
+
+with open(path, "w", encoding="utf-8") as f:
+    f.write(content)
+print("OK: wrangler.toml updated")

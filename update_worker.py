@@ -1,4 +1,6 @@
-export default {
+path = "/Users/user/Desktop/pilahsampah/worker/src/index.js"
+
+content = """export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
@@ -68,3 +70,8 @@ export default {
     }
   },
 };
+"""
+
+with open(path, "w", encoding="utf-8") as f:
+    f.write(content)
+print("OK: src/index.js updated dengan KV counter")
