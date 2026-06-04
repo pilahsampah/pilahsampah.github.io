@@ -899,6 +899,7 @@ footer a { color: var(--green); text-decoration: none; }
 
 <footer>
   <p>Berdasarkan <strong>Instruksi Gubernur DKI Jakarta No. 5 Tahun 2026</strong> tentang Gerakan Pemilahan dan Pengolahan Sampah dari Sumber &middot; <a href="https://ozbopan.github.io">ozbopan.github.io</a></p>
+  <p style="margin-top:6px">Panduan item disusun berdasarkan kategorisasi dari <strong>Waste4Change</strong>, <strong>Zero Waste Indonesia</strong>, dan <strong>KLHK/SIPSN</strong>. Daftar item bersifat panduan umum — untuk kasus spesifik, ikuti prinsip kategori atau tanyakan ke petugas setempat.</p>
   <p style="margin-top:6px">Gratis, tanpa iklan, untuk warga Jakarta.</p>
 </footer>
 
@@ -913,6 +914,7 @@ const rtLocalColor = {
 
 let rtMode = false;
 
+// Format item: string biasa ATAU {name, note} jika perlu keterangan khusus
 const data = [
   {
     id: "organik",
@@ -921,7 +923,22 @@ const data = [
     dot: "🟢",
     deskripsi: "Dapat terurai secara alami oleh mikroorganisme. Sifatnya basah dan bisa diolah menjadi kompos.",
     tips: "JANGAN memasukkan kantong plastik pembungkusnya ke tempat sampah ini! Wadahi sampah organik dalam kondisi tanpa plastik.",
-    items: ["Sisa Makanan","Buah Busuk","Sayur Layu","Kulit Buah","Daun Kering","Ranting Pohon","Ampas Kopi","Teh Celup Bekas","Tulang Ikan","Tulang Daging","Cangkang Telur","Rumput Potongan","Kulit Kacang","Nasi Basi","Roti Berjamur","Bunga Layu","Rambut Manusia","Bulu Ayam","Jeroan Ayam","Sisa Pemotongan Daging","Sisa Pemotongan Sayur","Bonggol Jagung","Kulit Bawang","Ampas Parutan Kelapa","Tulang Ayam"]
+    items: [
+      "Sisa Makanan","Buah Busuk","Sayur Layu","Kulit Buah","Daun Kering","Ranting Pohon",
+      "Ampas Kopi","Teh Celup Bekas","Tulang Ikan","Tulang Daging","Cangkang Telur",
+      "Rumput Potongan","Kulit Kacang","Nasi Basi","Roti Berjamur","Bunga Layu",
+      "Rambut Manusia","Bulu Ayam","Jeroan Ayam","Sisa Pemotongan Daging",
+      "Sisa Pemotongan Sayur","Bonggol Jagung","Kulit Bawang","Ampas Parutan Kelapa","Tulang Ayam",
+      // Tambahan baru
+      "Sisa Mie Kuah","Sisa Bubur","Sisa Kari",
+      "Kulit Pisang","Kulit Jeruk","Kulit Semangka","Kulit Melon","Kulit Singkong","Kulit Kentang",
+      "Biji Buah",
+      {name:"Ampas Santan", note:"Bisa dijadikan bahan kompos organik basah."},
+      "Daun Pisang Bekas","Pelepah Pisang",
+      {name:"Serbuk Gergaji", note:"Organik kering — cocok sebagai bahan kompos 'coklat' (carbon source)."},
+      {name:"Tanah Pot Bekas Tanaman", note:"Media tanam/tanah bekas yang sudah tidak produktif bisa langsung dikompos."},
+      {name:"Kotoran Hewan Peliharaan", note:"Kotoran kelinci, burung, dsb. bisa dijadikan pupuk kompos. Jangan masukkan kotoran hewan sakit."}
+    ]
   },
   {
     id: "anorganik",
@@ -930,7 +947,27 @@ const data = [
     dot: "🔵",
     deskripsi: "Sulit atau tidak dapat terurai secara alami, namun bernilai ekonomis tinggi karena bisa didaur ulang.",
     tips: "Pastikan sampah dalam kondisi BERSIH dan KERING. Bilas sisa susu/sirup di botol/kaleng agar tidak bau dan mengundang semut.",
-    items: ["Botol Plastik","Kertas Koran","Kardus Bekas","Kaleng Minuman","Botol Kaca","Kantong Plastik","Sedotan Plastik","Tutup Botol","Kemasan Sachet","Mainan Plastik Rusak","Gelas Plastik","Wadah Makanan Plastik","Kawat","Logam Kecil","Kaset CD","Kaset DVD","Kabel Bekas"]
+    items: [
+      "Botol Plastik","Kertas Koran","Kardus Bekas","Kaleng Minuman","Botol Kaca",
+      "Kantong Plastik","Sedotan Plastik","Tutup Botol","Kemasan Sachet","Mainan Plastik Rusak",
+      "Gelas Plastik","Wadah Makanan Plastik","Kawat","Logam Kecil","Kaset CD","Kaset DVD","Kabel Bekas",
+      // Tambahan baru
+      {name:"Botol Sampo Bekas", note:"Plastik HDPE — bilas sampai bersih sebelum dibuang."},
+      {name:"Botol Detergen Bekas", note:"Plastik HDPE — bilas dahulu agar tidak berbau."},
+      "Ember Plastik Rusak",
+      {name:"Sendok & Garpu Plastik", note:"Bisa didaur ulang jika bersih dan kering."},
+      "Piring Plastik",
+      {name:"Gelas Kaca", note:"Bilas dahulu. Kaca bersih bisa didaur ulang."},
+      {name:"Botol Kecap Bekas", note:"Kaca — bilas bersih, lepas tutup plastiknya (tutup masuk residu/anorganik terpisah)."},
+      {name:"Botol Saos / Sambal Bekas", note:"Kaca — bilas bersih sebelum dibuang."},
+      "Kaleng Susu","Kaleng Biskuit",
+      {name:"Kardus Mie Instan", note:"Kardus/karton kering bisa didaur ulang. Jika basah/berminyak → masuk Residu."},
+      "Koran Bekas","Majalah Bekas",
+      {name:"Buku Bekas", note:"Kertas bisa didaur ulang. Lepas cover plastik atau spiral logam terlebih dahulu."},
+      {name:"Aluminium Foil Bersih", note:"Hanya jika tidak berminyak/kotor. Cuci dulu jika perlu."},
+      "Kardus Telur","Besi Tua",
+      {name:"Kaleng Cat Kosong & Kering", note:"⚠️ Hanya jika sudah benar-benar kosong dan kering total. Jika masih ada sisa cat cair → masuk B3."}
+    ]
   },
   {
     id: "residu",
@@ -939,7 +976,27 @@ const data = [
     dot: "🟡",
     deskripsi: "Sampah yang sangat sulit atau tidak bisa didaur ulang, namun tidak mengandung bahan beracun.",
     tips: "Sampah inilah yang benar-benar akan dikirim ke TPA/Bantargebang. Sebisa mungkin kurangi penggunaan barang-barang di kategori ini.",
-    items: ["Popok Bekas","Pembalut Wanita","Tisu Kotor","Permen Karet","Styrofoam","Puntung Rokok","Kapas Bekas","Masker Medis","Cotton Bud","Bungkus Makanan Berminyak","Kertas Nasi","Sikat Gigi Bekas","Gelas Kopi Sekali Pakai","Plastik Laminating","Lakban","Perekat"]
+    items: [
+      "Popok Bekas","Pembalut Wanita","Tisu Kotor","Permen Karet","Styrofoam",
+      "Puntung Rokok","Kapas Bekas","Masker Medis","Cotton Bud","Bungkus Makanan Berminyak",
+      "Kertas Nasi","Sikat Gigi Bekas","Gelas Kopi Sekali Pakai","Plastik Laminating","Lakban","Perekat",
+      // Tambahan baru
+      {name:"Tisu Basah", note:"⚠️ Berbeda dari tisu kering! Tisu basah mengandung serat sintetis (polyester) yang tidak terurai — bukan organik, bukan bisa daur ulang. Masuk Residu."},
+      {name:"Spons Cuci Piring", note:"Material sintetis campuran busa & abrasif — tidak bisa didaur ulang. (Sumber: Waste4Change, SolusiklikID)"},
+      {name:"Bubble Wrap", note:"Plastik multilayer tipis — tidak diterima di fasilitas daur ulang umum Indonesia."},
+      {name:"Cermin Pecah", note:"⚠️ Jangan masuk Anorganik! Kaca cermin dilapisi perak/aluminium di belakangnya, yang mencemari proses daur ulang kaca biasa. (Sumber: Waste4Change)"},
+      {name:"Plastik Kemasan Mie Instan", note:"Plastik multilayer (kombinasi beberapa jenis plastik) — tidak diterima bank sampah umum."},
+      {name:"Bungkus Permen / Bungkus Snack Kecil", note:"Plastik multilayer tipis — tidak ekonomis untuk didaur ulang."},
+      {name:"Struk ATM / Struk Belanja / Kertas Kasir", note:"⚠️ Kertas thermal mengandung BPA (Bisphenol-A) — tidak bisa didaur ulang seperti kertas biasa!"},
+      {name:"Kemasan Pasta Gigi (tube)", note:"Material campuran plastik + lapisan aluminium yang sulit dipisah — masuk Residu."},
+      "Tali Rafia",
+      {name:"Spidol / Pulpen Habis", note:"Campuran plastik + logam + tinta — tidak bisa didaur ulang secara terpisah."},
+      {name:"Kantong Teh Plastik", note:"⚠️ Banyak kantong teh modern mengandung mikro-plastik polipropilen, bukan kertas murni. Periksa kemasannya."},
+      "Pempers Dewasa","Bungkus Rokok",
+      {name:"Karet Gelang", note:"Lateks/karet sintetis — tidak diterima bank sampah umum."},
+      {name:"Selotip / Isolasi", note:"Adhesif + plastik campuran — tidak bisa didaur ulang."},
+      "Korek Api Plastik Habis"
+    ]
   },
   {
     id: "b3",
@@ -948,7 +1005,25 @@ const data = [
     dot: "🔴",
     deskripsi: "Mengandung zat berbahaya atau beracun yang memerlukan penanganan khusus agar tidak mencemari lingkungan.",
     tips: "SANGAT BERBAHAYA jika tercampur! Zat kimianya bisa merembes ke air tanah atau memicu ledakan/kebakaran di truk sampah.",
-    items: ["Baterai Bekas","Lampu Neon Rusak","Lampu LED Rusak","Kaleng Aerosol","Kaleng Cat Bekas","Botol Pelarut Kimia","Pestisida","Insektisida","Obat-obatan Kadaluarsa","Termometer Air Raksa","Aki Kendaraan","Peralatan Elektronik Rusak","Toner Printer Bekas","Tinta Printer","Botol Kosong Pembersih Lantai","Wadah Bahan Kimia Laboratorium","Minyak Pelumas Bekas","Oli Bekas"]
+    items: [
+      "Baterai Bekas","Lampu Neon Rusak","Lampu LED Rusak","Kaleng Aerosol","Kaleng Cat Bekas",
+      "Botol Pelarut Kimia","Pestisida","Insektisida","Obat-obatan Kadaluarsa","Termometer Air Raksa",
+      "Aki Kendaraan","Peralatan Elektronik Rusak","Toner Printer Bekas","Tinta Printer",
+      "Botol Kosong Pembersih Lantai","Wadah Bahan Kimia Laboratorium","Minyak Pelumas Bekas","Oli Bekas",
+      // Tambahan baru
+      {name:"Bola Lampu Pijar Rusak", note:"Mengandung filamen tungsten + kaca vakum bertekanan. Jangan dihancurkan — bungkus dan beri label B3."},
+      {name:"Baterai Lithium (laptop, kamera)", note:"Lebih berbahaya dari baterai AA biasa — risiko kebakaran jika ditusuk atau dihancurkan. Setor ke toko elektronik atau TPS B3."},
+      {name:"Power Bank Rusak", note:"Baterai lithium polymer — risiko kebakaran tinggi. JANGAN dibuang ke tong biasa."},
+      {name:"Baterai HP Bekas", note:"Lithium ion — jangan dibuang ke tong sampah biasa. Setor ke toko HP atau TPS B3."},
+      {name:"Cat Tembok Sisa (masih cair)", note:"⚠️ Hanya jika masih cair = B3. Jika kaleng sudah kosong dan kering total → Anorganik."},
+      "Thinner / Tiner",
+      {name:"Korek Api Gas Kosong", note:"Masih mengandung residu gas butana — jangan ditusuk, beri lubang kecil di luar ruangan sebelum dibuang ke B3."},
+      {name:"Obat Nyamuk Semprot Kaleng (kosong)", note:"Kaleng aerosol + residu pestisida — masuk B3, bukan Anorganik meski berbahan kaleng."},
+      {name:"Cairan Pemutih Pakaian (Bayclin, dll)", note:"Natrium hipoklorit — bersifat korosif dan beracun untuk organisme air."},
+      {name:"Minyak Jelantah (jumlah besar)", note:"Jumlah kecil (beberapa sendok) = residu. Jelantah dalam jumlah banyak lebih baik disetor ke pengepul/bank jelantah — bisa diolah jadi biodiesel."},
+      {name:"Lem Kuning / Lem Karet", note:"Mengandung pelarut organik berbahaya (n-hexane). Masuk B3."},
+      {name:"Cat Semprot (pilox) Bekas", note:"Kaleng aerosol + residu cat berbahan kimia. Masuk B3."}
+    ]
   }
 ];
 
@@ -956,8 +1031,9 @@ const catGrid = document.getElementById("catGrid");
 data.forEach(d => {
   const card = document.createElement("div");
   card.className = `cat-card ${d.id}`;
-  const visibleItems = d.items.slice(0, 9);
-  const extra = d.items.length - visibleItems.length;
+  const itemNames = d.items.map(i => typeof i === "object" ? i.name : i);
+  const visibleItems = itemNames.slice(0, 9);
+  const extra = itemNames.length - visibleItems.length;
   card.innerHTML = `
     <div class="cat-header">
       <div class="cat-dot"></div>
@@ -991,9 +1067,11 @@ function doSearch(q) {
 
   const matches = [];
   data.forEach(d => {
-    d.items.forEach(item => {
-      if (item.toLowerCase().includes(q.toLowerCase())) {
-        matches.push({ item, d });
+    d.items.forEach(rawItem => {
+      const itemName = typeof rawItem === "object" ? rawItem.name : rawItem;
+      const itemNote = typeof rawItem === "object" ? rawItem.note : null;
+      if (itemName.toLowerCase().includes(q.toLowerCase())) {
+        matches.push({ itemName, itemNote, d });
       }
     });
   });
@@ -1005,7 +1083,7 @@ function doSearch(q) {
   }
 
   resultHeader.textContent = `${matches.length} hasil untuk "${inp.value}"`;
-  resultList.innerHTML = matches.map(({ item, d }) => {
+  resultList.innerHTML = matches.map(({ itemName, itemNote, d }) => {
     const local = rtLocalColor[d.id];
     const useRT = rtMode;
     const warna  = useRT ? local.warna : d.warna;
@@ -1013,12 +1091,16 @@ function doSearch(q) {
     const rtNote = useRT
       ? `<div class="rt-local-note"><span class="note-icon">📍</span><span>${local.note}</span></div>`
       : "";
+    const itemNoteHtml = itemNote
+      ? `<div class="tips-box" style="margin-top:8px;background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.12)"><strong>ℹ️ Catatan</strong>${itemNote}</div>`
+      : "";
     return `
     <div class="result-card rc-${d.id}">
       <div class="badge">${dot} Tempat Sampah ${warna} &mdash; ${d.kategori}</div>
-      <div class="item-name">${item}</div>
+      <div class="item-name">${itemName}</div>
       <div class="desc">${d.deskripsi}</div>
       <div class="tips-box"><strong>Tips penting</strong>${d.tips}</div>
+      ${itemNoteHtml}
       ${rtNote}
     </div>`;
   }).join("");
