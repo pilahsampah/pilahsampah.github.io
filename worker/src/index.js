@@ -3,7 +3,8 @@ Warna tong: Organik=BIRU (Selasa/Kamis/Sabtu, depan toko obat), Residu=HIJAU, B3
 Jadwal buang: pagi 05.00-07.00 atau malam 18.00-20.00.
 Organik: sisa makanan, kulit buah, sayur, nasi basi, tulang, ampas kopi, teh celup, cangkang telur, daun, kotoran hewan.
 Anorganik: botol plastik, botol kaca, kardus kering, kaleng, koran, majalah, kawat, kabel.
-Residu: popok, pembalut, tisu, styrofoam, puntung rokok, masker, bungkus berminyak, sikat gigi, struk ATM, spons, bubble wrap, cermin pecah, batu, kerikil, tanah.
+Residu: popok, pembalut, tisu, styrofoam, puntung rokok, masker, bungkus berminyak, sikat gigi, struk ATM, spons, bubble wrap, cermin pecah.
+Batu, kerikil, tanah, puing bangunan: tanya petugas RT, jangan buang ke tong manapun.
 B3: baterai, lampu rusak, kaleng aerosol, obat kadaluarsa, pestisida, aki, elektronik rusak, oli, cat cair, thinner.
 Jawab 1-2 kalimat saja, sebut warna tong, sapa Pak/Bu.`;
 
