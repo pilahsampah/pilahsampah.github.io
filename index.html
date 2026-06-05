@@ -786,12 +786,12 @@ footer a { color: var(--green); text-decoration: none; }
         <tr>
           <td class="jenis">Anorganik</td>
           <td><span class="color-pill pill-blue">🔵 Biru</span></td>
-          <td><span style="color:var(--muted)">❓ Belum diketahui</span></td>
+          <td><span class="color-pill" style="color:var(--blue);background:rgba(88,166,255,0.08);border-color:rgba(88,166,255,0.25);font-size:11px">♻️ Kelola Mandiri / Setor Bank Sampah</span></td>
         </tr>
         <tr>
           <td class="jenis">B3</td>
           <td><span class="color-pill pill-red">🔴 Merah</span></td>
-          <td><span style="color:var(--muted)">❓ Belum diketahui</span></td>
+          <td><span class="color-pill" style="color:var(--red);background:rgba(248,81,73,0.08);border-color:rgba(248,81,73,0.25);font-size:11px">🔴 Wadah Mandiri → Setor TPS B3</span></td>
         </tr>
       </tbody>
     </table>
@@ -866,9 +866,15 @@ footer a { color: var(--green); text-decoration: none; }
       <div class="photo-caption">Sampah organik tercampur plastik/residu</div>
     </div>
   </div>
-  <div class="rt-salah-note">
-    <strong>❌ Jangan ditiru</strong>
-    Sampah organik (sisa makanan, sayur, dll) harus dibuang <em>tanpa</em> plastik dan kertas pembungkusnya. Bungkus nasi padang, mie pangsit, dan kertas berminyak masuk tong <strong>residu</strong> — bukan organik.
+  <div class="rt-salah-note" style="background:rgba(248,81,73,0.10);border:2px solid var(--red-border);border-radius:14px;padding:1rem 1.125rem;">
+    <strong style="color:var(--red);display:block;font-size:13px;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.06em">❌ Jangan ditiru!</strong>
+    <div style="background:rgba(248,81,73,0.12);border:1px solid rgba(248,81,73,0.3);border-radius:8px;padding:10px 12px;margin-bottom:10px;font-size:13px;color:#ffb3b0;font-weight:600;line-height:1.5">
+      ⚠️ PENTING: Keluarkan sisa makanan dari plastik/kertas pembungkusnya sebelum dibuang ke tong organik!
+    </div>
+    <p style="font-size:12px;color:#ffb3b0;line-height:1.65;margin:0">
+      Sampah organik (sisa makanan, sayur, dll) harus dibuang <em>tanpa</em> plastik dan kertas pembungkusnya.<br>
+      <strong style="color:#fff">Bungkus nasi padang, mie pangsit, dan kertas berminyak</strong> masuk tong <strong style="color:var(--yellow)">RESIDU</strong> — bukan organik.
+    </p>
   </div>
 <!-- Info B3 -->
   <p class="rt-photos-label">Cara Buang Sampah B3</p>
@@ -1022,6 +1028,18 @@ const data = [
       {name:"Tisu Basah", note:"⚠️ Berbeda dari tisu kering! Tisu basah mengandung serat sintetis (polyester) yang tidak terurai — bukan organik, bukan bisa daur ulang. Masuk Residu."},
       {name:"Spons Cuci Piring", note:"Material sintetis campuran busa & abrasif — tidak bisa didaur ulang. (Sumber: Waste4Change, SolusiklikID)"},
       {name:"Bubble Wrap", note:"Plastik multilayer tipis — tidak diterima di fasilitas daur ulang umum Indonesia."},
+            "Botol Mineral",
+      "Botol Air Minum",
+      {name:"Kardus Paket", note:"Kardus bersih dan kering masuk Anorganik/daur ulang. Jika basah atau berminyak, masuk Residu."},
+      "Kaleng Soda",
+      "Kaleng Minuman",
+      {name:"Galon Air Bekas", note:"Bisa dikembalikan ke depot, atau masuk Anorganik jika tidak bisa ditukar."},
+      "Botol Kaca Bersih",
+      "Koran Bekas",
+      "Majalah Bekas",
+      "Buku Bekas",
+      "Karton",
+      "Dus",
       {name:"Cermin Pecah", note:"⚠️ Jangan masuk Anorganik! Kaca cermin dilapisi perak/aluminium di belakangnya, yang mencemari proses daur ulang kaca biasa. (Sumber: Waste4Change)"},
       {name:"Plastik Kemasan Mie Instan", note:"Plastik multilayer (kombinasi beberapa jenis plastik) — tidak diterima bank sampah umum."},
       {name:"Bungkus Permen / Bungkus Snack Kecil", note:"Plastik multilayer tipis — tidak ekonomis untuk didaur ulang."},
@@ -1033,7 +1051,18 @@ const data = [
       "Pempers Dewasa","Bungkus Rokok",
       {name:"Karet Gelang", note:"Lateks/karet sintetis — tidak diterima bank sampah umum."},
       {name:"Selotip / Isolasi", note:"Adhesif + plastik campuran — tidak bisa didaur ulang."},
-      "Korek Api Plastik Habis"
+      "Korek Api Plastik Habis",
+      {name:"Popok Bekas", note:"Popok sekali pakai (pampers) masuk RESIDU — tidak bisa didaur ulang maupun terurai dengan mudah."},
+      {name:"Pampers Bekas", note:"Sama dengan popok bayi — masuk RESIDU."},
+      {name:"Pembalut Bekas", note:"Masuk RESIDU — bungkus rapat sebelum dibuang."},
+      {name:"Styrofoam", note:"Masuk RESIDU — tidak bisa didaur ulang di fasilitas umum. Beberapa pengepul khusus menerima styrofoam bersih."},
+      {name:"Tisu Basah", note:"Mengandung serat sintetis — masuk RESIDU, bukan organik meskipun basah."},
+      "Puntung Rokok",
+      {name:"Kertas Minyak", note:"Kertas berminyak (bungkus nasi, gorengan) masuk RESIDU — minyak mencemari proses daur ulang kertas."},
+      {name:"Bungkus Nasi", note:"Kertas berminyak dan plastik pembungkus nasi masuk RESIDU."},
+      {name:"Tisu Kotor", note:"Tisu bekas pakai masuk RESIDU — jika bersih dan kering bisa Anorganik (kertas)."},
+      "Diapers",
+      "Pempers",
     ]
   },
   {
