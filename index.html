@@ -1145,7 +1145,7 @@ function doSearch(q) {
 
   if (!matches.length) {
     resultHeader.textContent = "";
-    resultList.innerHTML = `<div class="no-result"><span class="emoji">🤔</span><strong style="color:#e6edf3;display:block;margin-bottom:6px">Tidak ditemukan untuk "${inp.value}"</strong><span style="font-size:13px">Coba kata kunci lain, atau tanyakan ke petugas RT/RW setempat.</span></div>`;
+    resultList.innerHTML = `<div class="no-result"><span class="emoji">🤔</span><strong style="color:#e6edf3;display:block;margin-bottom:6px">Tidak ditemukan untuk "${inp.value}"</strong><span style="font-size:13px">Coba kata kunci lain, atau <button onclick="document.getElementById('psWindow').classList.remove('hidden');document.getElementById('psInput').focus();" style="background:none;border:none;color:#3fb950;font-size:13px;cursor:pointer;padding:0;text-decoration:underline;font-family:inherit">tanya chatbot →</button></span></div>`;
     return;
   }
 
